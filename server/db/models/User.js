@@ -9,11 +9,52 @@ const SALT_ROUNDS = 5;
 const User = db.define('user', {
   username: {
     type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
     unique: true,
-    allowNull: false
+    notEmpty: true
+    }
   },
   password: {
     type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      isEmail: true,
+      unique: true,
+      notEmpty: true
+    }
+  },
+  userType: {
+    type: Sequelize.ENUM('CUSTOMER', 'ADMIN'),
+    defaultValue: 'CUSTOMER',
+    allowNull: false,
+  },
+  isCustomer: {
+    type: Sequelize.VIRTUAL,
+    get() {
+      if (this.userType === 'CUSTOMER'){
+        return true;
+      } else {
+        return false
+      }
+    }
+  },
+  isAdmin: {
+    type: Sequelize.VIRTUAL,
+    get() {
+      if (this.userType === 'ADMIN'){
+        return true;
+      } else {
+        return false
+      }
+    }
   }
 })
 
