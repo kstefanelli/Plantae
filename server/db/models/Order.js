@@ -5,9 +5,9 @@ const Order = db.define("order", {
   orderNumber: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       notEmpty: true,
-      unique: true,
     },
   total: {
     type: Sequelize.FLOAT,

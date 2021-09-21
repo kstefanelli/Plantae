@@ -5,9 +5,9 @@ const Product = db.define("product", {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       notEmpty: true,
-      unique: true,
     },
   },
   description: {
@@ -27,9 +27,9 @@ const Product = db.define("product", {
   productNumber: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       notEmpty: true,
-      unique: true,
     },
   },
   inventory: {
