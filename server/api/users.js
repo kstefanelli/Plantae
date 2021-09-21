@@ -31,7 +31,7 @@ router.get("/:userId", async (req, res, next) => {
 //Get individual user cart details
 router.get("/:userId/cart", async (req, res, next) => {
   try {
-    const usersCart = await Cart.findAll({
+    const usersCart = await Cart.findOne({
       where: { userId: req.params.userId },
     });
   } catch (err) {
@@ -39,16 +39,33 @@ router.get("/:userId/cart", async (req, res, next) => {
   }
 });
 
-// //Update individual user cart total
-// router.put("/:userId/cart", async (req, res, next) => {
-//   try {
-//     const usersCart = await Cart.update({
-//       where: { userId: req.params.userId },
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+//Update individual user cart
+router.put("/:userId/cart", async (req, res, next) => {
+  try {
+    const usersCart = await Cart.findOne({
+      where: { userId: req.params.userId },
+    });
+    res.send(await usersCart.update(req.body));
+  } catch (err) {
+    next(err);
+  }
+});
+
+//update quantity of cart item in the cart
+router.put("/:userId/cart", async (req, res, next) => {
+  try {
+    const usersCart = await Cart.findOne({
+      where: { userId: req.params.userId },
+    });
+    res.send(await usersCart.update(req.body));
+  } catch (err) {
+    next(err);
+  }
+});
+
+//if cart item quanity is 0, delete item
+
+router.delete();
 
 //Add/POST user
 //need to add something to allow an admin user

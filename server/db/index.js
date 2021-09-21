@@ -6,6 +6,7 @@ const User = require("./models/User");
 const Product = require("./models/Product");
 const Order = require("./models/Order");
 const Cart = require("./models/Cart");
+const CartItem = require("./models/CartItem");
 
 //user and order
 User.hasMany(Order);
@@ -20,8 +21,8 @@ Cart.belongsTo(User);
 User.hasOne(Cart);
 
 //Product and Cart Item
-Product.belongsToMany(Cart, { through: "cartItem" });
-Cart.belongsToMany(Product, { through: "cartItem" });
+Product.belongsToMany(Cart, { through: CartItem });
+Cart.belongsToMany(Product, { through: CartItem });
 
 module.exports = {
   db,
@@ -29,6 +30,6 @@ module.exports = {
     User,
     Product,
     Cart,
-    Order
+    Order,
   },
 };
