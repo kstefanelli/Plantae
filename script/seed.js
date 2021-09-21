@@ -12,33 +12,6 @@ const CartItem = require("../server/db/models/CartItem");
  *      match the models, and populates the database.
  */
 
-const users = [
-  {
-    username: "anna",
-    password: "123",
-    email: "anna@email.com",
-    userType: "ADMIN",
-  },
-  {
-    username: "kristina",
-    password: "123",
-    email: "kristina@email.com",
-    userType: "ADMIN",
-  },
-  {
-    username: "gigi",
-    password: "123",
-    email: "gigi@email.com",
-    userType: "ADMIN",
-  },
-  {
-    username: "customer",
-    password: "123",
-    email: "customer@email.com",
-    userType: "CUSTOMER",
-  },
-];
-
 const products = [
   {
     name: "Calathea Vitatta",
@@ -182,42 +155,55 @@ const products = [
     inventory: 100,
   },
 ];
-//creating cartItem
-// const cartItems = await Promise.all(
-//   carts.map((cart) => {
-//     console.log(cart);
-//     Product.create({ quantity: 1, productId: 1, cartId: 1 });
-//   })
-// );
 
-// Cart.setProducts();
+const seed = async() => {
+  try {
+    await db.sync({force: true});
 
-async function seed() {
-  await db
-    .sync({ force: true }) // clears db and matches models to tables
-    .then(() =>
-      Promise.all(users.map((user) => User.create(user))).then(() =>
-        Promise.all(products.map((product) => Product.create(product))).then(
-          () =>
-            Promise.all(users.map((user) => Cart.create({ userId: user.id })))
-        )
-      )
-    );
-  console.log("db synced!");
-  //console log our successful seeding
-  console.log(`seeded ${users.length} users and ${products.length} products`);
-  console.log(`seeded successfully`);
-  return {
-    users: {
-      anna: users[0],
-      kristina: users[1],
-      gigi: users[2],
-      customer: users[3],
-    },
-  };
+    const anna = await User.create({
+      username: "anna",
+      password: "123",
+      email: "anna@email.com",
+      userType: "ADMIN",
+    })
+    const kristina = await User.create({
+      username: "kristina",
+      password: "123",
+      email: "kristina@email.com",
+      userType: "ADMIN",
+    })
+    const gigi = await User.create({
+      username: "gigi",
+      password: "123",
+      email: "gigi@email.com",
+      userType: "ADMIN",
+    })
+    const customer = await User.create({
+      username: "customer",
+      password: "123",
+      email: "customer@email.com",
+      userType: "CUSTOMER",
+    })
+
+    const newProducts = await products.map((product) => {
+      Product.create(product)
+    })
+
+    let cart1 = await Cart.create({userId: anna.id})
+    let cart2 = await Cart.create({userId: kristina.id})
+    let cart3 = await Cart.create({userId: gigi.id})
+    let cart4 = await Cart.create({userId: customer.id})
+
+    await CartItem.create({cartId: cart1.id, productId: 1})
+    await CartItem.create({cartId: cart2.id, productId: 1})
+    await CartItem.create({cartId: cart3.id, productId: 1})
+    await CartItem.create({cartId: cart4.id, productId: 1})
+
+  } catch (err) {
+    console.log(err)
+  }
 }
 
-console.log(Object.keys(CartItem.prototype));
 /*
  We've separated the `seed` function from the `runSeed` function.
  This way we can isolate the error handling and exit trapping.
