@@ -31,5 +31,6 @@ module.exports = {
     Product,
     Cart,
     Order,
+    CartItem
   },
 };

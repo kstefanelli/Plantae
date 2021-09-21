@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const {
-  models: { User, Cart },
+  models: { User, Cart, CartItem },
 } = require("../db");
+const Product = require("../db/models/Product");
 module.exports = router;
 
 //Get all the user info for the admin
@@ -28,44 +29,67 @@ router.get("/:userId", async (req, res, next) => {
   }
 });
 
+// User.findAll({
+//   where: {
+//     '$Instruments.size$': { [Op.ne]: 'small' }
+//   },
+//   include: [{
+//     model: Tool,
+//     as: 'Instruments'
+//   }]
+// });
+
 //Get individual user cart details
 router.get("/:userId/cart", async (req, res, next) => {
   try {
-    const usersCart = await Cart.findOne({
-      where: { userId: req.params.userId },
-    });
+    const cart = await Cart.findOne({
+      where: {
+        userId: req.params.userId
+      }});
+
+      const items = await CartItem.findAll({
+        where: {
+          cartId: cart.id
+        }
+      })
+
+    console.log("THESE ARE OUR ITEMS", items)
+    res.json(items)
   } catch (err) {
     next(err);
   }
 });
 
-//Update individual user cart
-router.put("/:userId/cart", async (req, res, next) => {
-  try {
-    const usersCart = await Cart.findOne({
-      where: { userId: req.params.userId },
-    });
-    res.send(await usersCart.update(req.body));
-  } catch (err) {
-    next(err);
-  }
-});
+// //Update individual user cart
+// router.put("/:userId/cart", async (req, res, next) => {
+//   try {
+//     const usersCart = await Cart.findOne({
+//       where: {
+//         userId: req.params.userId,
 
-//update quantity of cart item in the cart
-router.put("/:userId/cart", async (req, res, next) => {
-  try {
-    const usersCart = await Cart.findOne({
-      where: { userId: req.params.userId },
-    });
-    res.send(await usersCart.update(req.body));
-  } catch (err) {
-    next(err);
-  }
-});
+//       },
+//     });
+//     res.json(await usersCart.update(req.body));
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
+// //update quantity of cart item in the cart
+// router.put("/:userId/cart", async (req, res, next) => {
+//   try {
+//     const usersCart = await Cart.findOne({
+//       where: { userId: req.params.userId },
+//     });
+//     res.json(await usersCart.update(req.body));
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 //if cart item quanity is 0, delete item
 
-router.delete();
+// router.delete();
 
 //Add/POST user
 //need to add something to allow an admin user
