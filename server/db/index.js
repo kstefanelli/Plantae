@@ -10,15 +10,15 @@ Order.belongsTo(User);
 
 //product and order
 Product.belongsToMany(Order, { through: "orderItem" });
-Order.hasMany(Product);
+Order.belongsToMany(Product, { through: "orderItem" });
 
 //User and Shopping Session
-User.belongsTo(ShoppingSession);
-ShoppingSession.hasOne(User);
+Cart.belongsTo(User);
+User.hasOne(Cart);
 
-//User and Cart Item
-Product.belongsToMany(CartItem, { through: "productCart" });
-CartItem.hasMany(Product);
+//Product and Cart Item
+Product.belongsToMany(Cart, { through: "cartItem" });
+Cart.belongsToMany(Product, { through: "cartItem" });
 
 module.exports = {
   db,
