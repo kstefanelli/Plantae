@@ -3,6 +3,9 @@
 const db = require("./db");
 
 const User = require("./models/User");
+const Product = require("./models/Product");
+const Order = require("./models/Order");
+const Cart = require("./models/Cart");
 
 //user and order
 User.hasMany(Order);
@@ -24,5 +27,8 @@ module.exports = {
   db,
   models: {
     User,
+    Product,
+    Cart,
+    Order
   },
 };
