@@ -41,8 +41,9 @@ const Product = db.define("product", {
   },
   imageURL: {
     type: Sequelize.STRING,
-    defaultValue: 'https://www.boredpanda.com/blog/wp-content/uploads/2015/04/cat-in-flowerpot-35__605.jpg'
-  }
+    defaultValue:
+      "https://www.boredpanda.com/blog/wp-content/uploads/2015/04/cat-in-flowerpot-35__605.jpg",
+  },
 });
 
 module.exports = Product;
