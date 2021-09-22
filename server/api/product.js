@@ -1,11 +1,35 @@
 const router = require("express").Router();
-const Product  = require('../db/models/Product')
+const Product = require("../db/models/Product");
 
+const requireToken = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization;
+    const user = await User.findByToken(token);
+    req.user = user;
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+const isAdmin = (req, res, next) => {
+  try {
+    if (!req.user.isAdmin) {
+      throw new Error("You are not an Admin!");
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+//////////////////////////^Middleware///////////////////////////////////////////
 
 router.get("/", async (req, res, next) => {
   try {
     const allProducts = await Product.findAll({
       //add conditional isAdmin to show complete product details
+      //need to figure out how to let admin get all the info
       attributes: ["id", "name", "description", "price", "imageURL"],
     });
     res.json(allProducts);
@@ -17,20 +41,16 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const singleProduct = await Product.findByPk(req.params.id, {
-      attributes: ["id", "name", "description", "price", "imageURL"]});
+      attributes: ["id", "name", "description", "price", "imageURL"],
+    });
     res.json(singleProduct);
   } catch (error) {
     next(error);
   }
 });
 
-const isAdmin = (req, res, next) => {
-  //write conditional statement here to check if user isAdmin.
-  //may add this to index.js
-}
-
 //admin only - add products
-router.post("/", isAdmin, async (req, res, next) => {
+router.post("/", requireToken, isAdmin, async (req, res, next) => {
   try {
     res.status(201).json(await Product.create(req.body));
   } catch (error) {
@@ -39,7 +59,7 @@ router.post("/", isAdmin, async (req, res, next) => {
 });
 
 //admin only - edit products
-router.put("/:id", isAdmin, async (req, res, next) => {
+router.put("/:id", requireToken, isAdmin, async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
     res.json(await product.update(req.body));
@@ -49,7 +69,7 @@ router.put("/:id", isAdmin, async (req, res, next) => {
 });
 
 //admin only - remove products
-router.delete("/:id", isAdmin, async (req, res, next) => {
+router.delete("/:id", requireToken, isAdmin, async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
     await product.destroy();
