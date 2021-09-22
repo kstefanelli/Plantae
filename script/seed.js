@@ -4,7 +4,7 @@ const {
   db,
   models: { User, Product },
 } = require("../server/db");
-const Cart = require("../server/db/models/Cart");
+const Order = require("../server/db/models/Order");
 const CartItem = require("../server/db/models/CartItem");
 
 /**
@@ -189,20 +189,22 @@ const seed = async() => {
       Product.create(product)
     })
 
-    let cart1 = await Cart.create({userId: anna.id})
-    let cart2 = await Cart.create({userId: kristina.id})
-    let cart3 = await Cart.create({userId: gigi.id})
-    let cart4 = await Cart.create({userId: customer.id})
+    let order1 = await Order.create({userId: anna.id})
+    let order2 = await Order.create({userId: kristina.id})
+    let order3 = await Order.create({userId: gigi.id})
+    let order4 = await Order.create({userId: customer.id})
 
-    await CartItem.create({cartId: cart1.id, productId: 1})
-    await CartItem.create({cartId: cart2.id, productId: 1})
-    await CartItem.create({cartId: cart3.id, productId: 1})
-    await CartItem.create({cartId: cart4.id, productId: 1})
+    await CartItem.create({orderId: order1.id, productId: 1})
+    await CartItem.create({orderId: order2.id, productId: 1})
+    await CartItem.create({orderId: order3.id, productId: 1})
+    await CartItem.create({orderId: order4.id, productId: 1})
 
   } catch (err) {
     console.log(err)
   }
 }
+
+//updated the seed to reflect cart --> order changes
 
 /*
  We've separated the `seed` function from the `runSeed` function.
