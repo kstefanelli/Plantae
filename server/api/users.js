@@ -1,14 +1,13 @@
 const router = require("express").Router();
 const {
-  models: { User, Cart, CartItem, Product },
+  models: { User, Order, CartItem },
 } = require("../db");
 
 module.exports = router;
 
-//need to update cart to order
-
-//////////THIS SECTION IS PURELY USERS ROUTES. NOT ORDER INFO.//////////////////////
+///////////////////////////////(BELOW) PURELY USERS ROUTES. NOT ORDER INFO.//////////////////////////////
 //Get all the users - only for admin access
+// /api/users/
 router.get("/", async (req, res, next) => {
   try {
     const users = await User.findAll({
@@ -21,6 +20,7 @@ router.get("/", async (req, res, next) => {
 });
 
 //Get individual user account details - only for matching user and admin access
+// /api/users/:userId
 router.get("/:userId", async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId, {
@@ -33,6 +33,7 @@ router.get("/:userId", async (req, res, next) => {
 });
 
 //Add/POST user - creating a new user
+// /api/users/
 router.post("/", async (req, res, next) => {
   try {
     res.status(201).json(await User.create(req.body));
@@ -42,6 +43,7 @@ router.post("/", async (req, res, next) => {
 });
 
 //Delete user - admin only
+// /api/users/:userId
 router.delete("/:userId", async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId);
@@ -51,13 +53,20 @@ router.delete("/:userId", async (req, res, next) => {
     next(err);
   }
 });
-/////////////////////////////ABOVE SECTION IS PURELY USERS ROUTES. NOT ORDER INFO.///////////////////////////////////
+/////////////////////////////(ABOVE) PURELY USERS ROUTES. NOT ORDER INFO.///////////////////////////////////
 
-/////////////////////////SECTION BELOW IS STUFF FOR ORDERS/////////////////////////////////////
-//Get individual user order details  - only for matching user and admin access
-router.get("/:userId/cart", async (req, res, next) => {
+/////////////////////////////////(BELOW) API route Links to order API routes///////////////////////////////
+// /api/users/order
+router.use("/order", require("./order"));
+//I think we can just move the stuff below into orders and not put this route above^. we don't need them here since we can probably reference the userId elsewhere anyway.
+/////////////////////////////////(ABOVE)API route Links to order API routes////////////////////////////////
+
+/////////////////////////(BELOW) STUFF FOR ORDERS//////////////////////////////////////////////////////////
+//Get individual user current order details  - only for matching user and admin access
+// /api/users/:userId/order
+router.get("/:userId/order", async (req, res, next) => {
   try {
-    const cart = await Cart.findOne({
+    const order = await Order.findOne({
       where: {
         userId: req.params.userId,
       },
@@ -65,7 +74,7 @@ router.get("/:userId/cart", async (req, res, next) => {
 
     const items = await CartItem.findAll({
       where: {
-        cartId: cart.id,
+        orderId: order.id,
       },
     });
 
@@ -75,22 +84,24 @@ router.get("/:userId/cart", async (req, res, next) => {
   }
 });
 
-//Update individual user order  - only for matching user and admin access
-router.put("/:userId/cart", async (req, res, next) => {
+//Update individual user current order  - only for matching user access
+// /api/users/:userId/order
+router.put("/:userId/order", async (req, res, next) => {
   try {
-    const usersCart = await Cart.findOne({
+    const usersCurrentOrder = await Order.findOne({
       where: {
         userId: req.params.userId,
       },
     });
-    res.json(await usersCart.update(req.body));
+    res.json(await usersCurrentOrder.update(req.body));
   } catch (err) {
     next(err);
   }
 });
 
-//if cart item quanity is 0, delete item
-router.delete("/:userId/cart/:cartItemId", async (req, res, next) => {
+//delete items in current order - only for matching user access
+// /api/users/:userId/order/:cartItemId
+router.delete("/:userId/order/:cartItemId", async (req, res, next) => {
   try {
     const cartItem = await CartItem.findByPk(req.params.cartItemId);
     await cartItem.destroy();
