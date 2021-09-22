@@ -52,7 +52,6 @@ router.get("/:userId/cart", async (req, res, next) => {
           cartId: cart.id
         }
       })
-
     console.log("THESE ARE OUR ITEMS", items)
     res.json(items)
   } catch (err) {
