@@ -5,15 +5,47 @@ const {
 
 module.exports = router;
 
+const requireToken = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization;
+    const user = await User.findByToken(token);
+    req.user = user;
+    next();
+  } catch(error) {
+    next(error);
+  }
+};
+
+const isAdmin = (req, res, next) => {
+  try {
+  if (!req.user.isAdmin) {
+    throw new Error('You are not an Admin!');
+  } 
+    next()
+  } catch(error){
+    next(error)
+  }
+}
+
+
+const isUser = (req, res, next) => {
+  try {
+  if (req.user.id !== req.params.id) {
+    throw new Error('Unauthorized!');
+  }
+    next()
+  } catch(error){
+    next(error)
+  }
+}
+
 ///////////////////////////////(BELOW) PURELY USERS ROUTES. NOT ORDER INFO.//////////////////////////////
 //Get all the users - only for admin access
 // /api/users/
-router.get("/", async (req, res, next) => {
+router.get("/", requireToken, isAdmin, async (req, res, next) => {
   try {
-    const users = await User.findAll({
-      attributes: ["id", "username", "email"],
-    });
-    res.json(users);
+      const users = await User.findAll();
+      res.json(users);
   } catch (err) {
     next(err);
   }
@@ -21,7 +53,7 @@ router.get("/", async (req, res, next) => {
 
 //Get individual user account details - only for matching user and admin access
 // /api/users/:userId
-router.get("/:userId", async (req, res, next) => {
+router.get("/:userId",  requireToken, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId, {
       attributes: ["id", "username", "email"],

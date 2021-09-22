@@ -6,6 +6,10 @@ const CartItem = db.define("CartItem", {
     type: Sequelize.INTEGER,
     defaultValue: 1,
   },
+  priceAtCheckout: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+  }
 });
 
 module.exports = CartItem;

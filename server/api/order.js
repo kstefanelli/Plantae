@@ -9,9 +9,19 @@ const Product = require("../db/models/Product");
 // that then dispatches an update order route, that then accesses the database and creates a new cartitem with the orderid and the productid,
 // sends back new order page with new cart item and all cart items included
 
+const requireToken = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization;
+    const user = await User.findByToken(token);
+    req.user = user;
+    next();
+  } catch(error) {
+    next(error);
+  }
+};
 
 //all orders for admins//working
-router.get('/allOrders', async (req,res,next) => {
+router.get('/allOrders', requireToken, async (req,res,next) => {
   try {
     const orders = await Order.findAll();
     res.json(orders)
@@ -21,7 +31,7 @@ router.get('/allOrders', async (req,res,next) => {
 })
 
 //working
-router.get("/:userId", async (req, res, next) => {
+router.get("/:userId", requireToken, async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
@@ -68,7 +78,7 @@ router.post('/:userId', async (req, res, next) => {
   //test once we deploy
   //Update individual user current order  - only for matching user access, changing quantity
   // /api/users/:userId/order
-  router.put("/:userId", async (req, res, next) => {
+  router.put("/:userId", requireToken, async (req, res, next) => {
     try {
       const usersCurrentOrder = await Order.findOne({
         where: {
@@ -83,7 +93,7 @@ router.post('/:userId', async (req, res, next) => {
 
   //delete items in current order - only for matching user access
   // /api/users/:userId/order/:cartItemId
-  router.delete("/:userId/:cartItemId", async (req, res, next) => {
+  router.delete("/:userId/:cartItemId", requireToken, async (req, res, next) => {
       try {
         const order = await Order.findOne({
           where: {
