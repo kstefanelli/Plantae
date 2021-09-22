@@ -5,6 +5,7 @@ const Product  = require('../db/models/Product')
 router.get("/", async (req, res, next) => {
   try {
     const allProducts = await Product.findAll({
+      //add conditional isAdmin to show complete product details
       attributes: ["id", "name", "description", "price", "imageURL"],
     });
     res.json(allProducts);
@@ -25,6 +26,7 @@ router.get("/:id", async (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
   //write conditional statement here to check if user isAdmin.
+  //may add this to index.js
 }
 
 //admin only - add products
