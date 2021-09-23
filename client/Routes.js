@@ -30,24 +30,24 @@ class Routes extends Component {
           <Switch>
             <Route path="/home" component={Home} />
             <Redirect to="/home" />
-            <Route
+            {/* <Route
               exact
               path="/products/:productId"
               component={SingleProduct}
-            />
-            <Route exact path="/products" component={AllProducts} />
+            /> */}
+            {/* <Route exact path="/products" component={AllProducts} /> */}
           </Switch>
         ) : (
           <Switch>
             <Route path="/" exact component={Login} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route exact path="/products" component={AllProducts} />
-            <Route
+            {/* <Route exact path="/products" component={AllProducts} /> */}
+            {/* <Route
               exact
               path="/products/:productId"
               component={SingleProduct}
-            />
+            /> */}
           </Switch>
         )}
       </div>
