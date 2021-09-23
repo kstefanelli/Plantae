@@ -12,8 +12,8 @@ export class AllProducts extends React.Component {
   }
 
   render() {
-    const products = this.props.products
-    console.log("THIS IS PROPS", this.props)
+    const products = this.props.products || []
+    console.log(this.props)
     return (
     <div>
       <h3>PRODUCT LIST</h3>
@@ -36,7 +36,7 @@ export class AllProducts extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    products: state.products
+    products: state.product
   };
 };
 

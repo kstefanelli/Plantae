@@ -4,10 +4,10 @@ import axios from "axios";
 const SET_SINGLE_PRODUCT = 'SET_SINGLE_PRODUCT';
 
 //ACTION CREATORS
-export const setSingleProduct = (product) => {
+export const setSingleProduct = (singleProduct) => {
   return {
     type: SET_SINGLE_PRODUCT,
-    product
+    singleProduct
   }
 };
 //THUNK CREATORS
@@ -31,7 +31,7 @@ const initialState = {}
 export default (state = initialState, action) => {
     switch (action.type) {
       case SET_SINGLE_PRODUCT:
-        return action.product
+        return action.singleProduct
       default:
         return state
     }

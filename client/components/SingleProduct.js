@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from 'react-redux'
-import { fetchSingleProduct } from "../store/singleProduct";
+import { fetchSingleProduct } from "../store/singleProduct"
 
 export class SingleProduct extends React.Component {
 
@@ -20,8 +20,7 @@ export class SingleProduct extends React.Component {
       <h3>{productName}</h3>
       <img src = {imageUrl}/>
       <p>
-            Name: {productName} <br />
-            Description: {description} <br />
+            {description} <br />
             Price: ${price/100} <br />
       </p>
     </div>
@@ -30,7 +29,7 @@ export class SingleProduct extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    product: state.product,
+    product: state.singleProduct,
  }
 }
 
