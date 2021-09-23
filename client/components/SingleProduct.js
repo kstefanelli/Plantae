@@ -1,13 +1,41 @@
 import React from "react";
-//import {connect} from 'react-redux'
+import {connect} from 'react-redux'
+import { fetchSingleProduct } from "../store/singleProduct";
 
-export const SingleProduct = () => {
-  return (
+export class SingleProduct extends React.Component {
+
+  componentDidMount(){
+    const id = this.props.match.params.id
+    this.props.getProduct(id)
+    console.log(this.props)
+  }
+  render() {
+    const productName = this.props.product.name || "";
+    const description = this.props.product.description || "";
+    const imageUrl = this.props.product.imageURL || "";
+    const price = this.props.product.price || "";
+
+    return (
     <div>
-      <h3>SingleProduct Component</h3>
+      <h3>{productName}</h3>
+      <img src = {imageUrl}/>
+      <p>
+            Name: {productName} <br />
+            Description: {description} <br />
+            Price: ${price/100} <br />
+      </p>
     </div>
   );
-};
+}}
 
-export default SingleProduct; //comment if uncommenting below
-//export default connect(mapState)(SingleProduct) //uncomment when mapState and/or mapDispatch added
+const mapStateToProps = (state) => {
+  return {
+    product: state.product,
+ }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  getProduct: (productId) => dispatch(fetchSingleProduct(productId))
+  });
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct)
