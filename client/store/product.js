@@ -7,12 +7,12 @@ import axios from "axios";
 //THUNK CREATORS
 
 //INITIAL STATE
-const initialState = ;
+// const initialState = ;
 
 //REDUCER
-export default function(state = initialState, action) {
-    switch (action.type) {
-      default:
-        return state
-    }
+export default function (state = initialState, action) {
+  switch (action.type) {
+    default:
+      return state;
   }
+}
