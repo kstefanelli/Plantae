@@ -14,6 +14,7 @@ export class SingleProduct extends React.Component {
     const description = this.props.product.description || "";
     const imageUrl = this.props.product.imageURL || "";
     const price = this.props.product.price || "";
+    const inventory = this.props.product.inventory || ""
 
     return (
     <div>
@@ -22,6 +23,7 @@ export class SingleProduct extends React.Component {
       <p>
             {description} <br />
             Price: ${price/100} <br />
+            Inventory: {inventory}
       </p>
     </div>
   );
