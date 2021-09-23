@@ -8,7 +8,6 @@ const App = () => {
     <div>
       <Navbar />
       <Routes />
-      <div>IN APP</div>
     </div>
   );
 };
