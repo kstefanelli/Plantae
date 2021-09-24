@@ -18,7 +18,7 @@ const requireToken = async (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
   try {
-    if (!req.user.isAdmin) {
+    if (!req.user.userType === "ADMIN") {
       throw new Error("You are not an Admin!");
     }
     next();
@@ -42,7 +42,7 @@ const isUser = (req, res, next) => {
 //Get all the users - only for admin access
 // /api/users/
 router.get("/", requireToken, isAdmin, async (req, res, next) => {
-  try {
+  try { 
     const users = await User.findAll();
     res.json(users);
   } catch (err) {

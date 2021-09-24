@@ -13,6 +13,7 @@ import Checkout from "./components/Checkout";
 import SingleProduct from "./components/SingleProduct";
 import SingleUser from "./components/SingleUser";
 
+
 /**
  * COMPONENT
  */
@@ -29,19 +30,28 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route path="/home" component={Home} />
+
+ 
+            <Route exact path="/users" component={AllUsers} />
+            <Route exact path="/users/:userId" component={SingleUser} />
             <Route path="/products/:id" component={SingleProduct} />
             <Route path="/products" exact component={AllProducts} />
 
 
             <Redirect to="/home" />
+
           </Switch>
         ) : (
           <Switch>
             <Route path="/" exact component={Login} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+
+            <Route exact path="/users" component={AllUsers} />
+            <Route exact path="/users/:userId" component={SingleUser} />
             <Route path="/products/:id" component={SingleProduct} />
             <Route path="/products" exact component={AllProducts} />
+
           </Switch>
         )}
       </div>
