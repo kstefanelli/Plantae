@@ -5,19 +5,21 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import auth from "./auth";
 
 //added reducers//
-
+import orders from "./order";
+import singleOrder from "./singleOrder";
 import allUsers from "./user";
 import singleUser from "./singleUser";
-import order from "./order";
 import product from "./product";
-import singleProduct from "./singleProduct"
+import singleProduct from "./singleProduct";
 
 const reducer = combineReducers({
   auth,
+  product,
+  singleProduct,
+  singleOrder,
+  orders,
   users: allUsers,
   user: singleUser,
-  product,
-  singleProduct
 });
 
 const middleware = composeWithDevTools(

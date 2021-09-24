@@ -5,23 +5,18 @@ const {
 const { requireToken, isAdmin, isUser } = require("./middlewares");
 
 //all orders for admins//working
-router.get(
-  "/allOrders",
-  requireToken,
-  isAdmin,
-  isUser,
-  async (req, res, next) => {
-    try {
-      const orders = await Order.findAll();
-      res.json(orders);
-    } catch (err) {
-      next(err);
-    }
+router.get("/", requireToken, isAdmin, async (req, res, next) => {
+  try {
+    const orders = await Order.findAll();
+    res.json(orders);
+  } catch (err) {
+    next(err);
   }
-);
+});
 
-//working
-router.get("/:userId", requireToken, isUser, async (req, res, next) => {
+//working //need to add back isUser
+router.get("/:userId", requireToken, async (req, res, next) => {
+  //conditional either match id or admin
   try {
     const order = await Order.findOne({
       where: {

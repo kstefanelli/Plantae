@@ -3,16 +3,16 @@ import { connect } from "react-redux";
 import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Login, Signup } from "./components/AuthForm";
 import Home from "./components/Home";
-import { me } from "./store";
+import { me } from "./store/auth";
 
 //Added components//
 import AllProducts from "./components/AllProducts";
 import AllUsers from "./components/AllUsers";
-import Cart from "./components/Cart";
+import SingleOrder from "./components/SingleOrder";
+import AllOrders from "./components/AllOrders";
 import Checkout from "./components/Checkout";
 import SingleProduct from "./components/SingleProduct";
 import SingleUser from "./components/SingleUser";
-
 
 /**
  * COMPONENT
@@ -31,15 +31,14 @@ class Routes extends Component {
           <Switch>
             <Route path="/home" component={Home} />
 
- 
             <Route exact path="/users" component={AllUsers} />
             <Route exact path="/users/:userId" component={SingleUser} />
             <Route path="/products/:id" component={SingleProduct} />
             <Route path="/products" exact component={AllProducts} />
-
+            <Route path="/order" exact component={AllOrders} />
+            <Route path="/order/:id" exact component={SingleOrder} />
 
             <Redirect to="/home" />
-
           </Switch>
         ) : (
           <Switch>
@@ -51,7 +50,6 @@ class Routes extends Component {
             <Route exact path="/users/:userId" component={SingleUser} />
             <Route path="/products/:id" component={SingleProduct} />
             <Route path="/products" exact component={AllProducts} />
-
           </Switch>
         )}
       </div>
