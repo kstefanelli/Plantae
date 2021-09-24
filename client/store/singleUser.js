@@ -1,31 +1,31 @@
 import axios from "axios";
 
-const SINGLE_USER = "SINGLE_USER"
+const SET_USER = "SET_USER";
 
-export const setSingleUser = (singleUser) => {
+export const setUser = (user) => {
   return {
-    type: SINGLE_USER,
-    singleUser,
+    type: SET_USER,
+    user,
   };
 };
 
-export const fetchSingleUser = (id) => {
+export const fetchUser = (userId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/users/${id}`);
-      dispatch(setSingleUser(data));
+      const { data } = await axios.get(`/api/users/${userId}`);
+      dispatch(setUser(data));
     } catch (error) {
       console.log(error);
     }
   };
 };
 
-const initialState =  {}
+const initialState = {};
 
-export default function (state = initialState, action) {
+export default function singleUser(state = initialState, action) {
   switch (action.type) {
-    case SINGLE_USER:
-    return  action.singleUser;
+    case SET_USER:
+      return action.user;
     default:
       return state;
   }

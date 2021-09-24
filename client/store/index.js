@@ -5,16 +5,16 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import auth from "./auth";
 
 //added reducers//
-import users from "./user";
-import singleUser from './singleUser'
+import allUsers from "./user";
+import singleUser from "./singleUser";
 import order from "./order";
 import product from "./product";
 
-const reducer = combineReducers({ 
+const reducer = combineReducers({
   auth,
-  users,
-  singleUser
- }); //add reducers here
+  users: allUsers,
+  user: singleUser,
+}); //add reducers here
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 );

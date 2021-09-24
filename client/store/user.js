@@ -9,21 +9,20 @@ export const setUsers = (users) => {
   };
 };
 
-
 export const fetchUsers = () => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get("/api/users");
       dispatch(setUsers(data));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 };
 
-const initialState = []
+const initialState = [];
 
-export default function (state = initialState, action) {
+export default function allUsers(state = initialState, action) {
   switch (action.type) {
     case SET_USERS:
       return action.users;

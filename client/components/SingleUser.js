@@ -1,15 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchSingleUser } from "../store/singleUser";
+import { fetchUser } from "../store/singleUser";
 
 class SingleUser extends React.Component {
   componentDidMount() {
-    this.props.getSingleUser(this.props.match.params.userId);
+    this.props.getUser(this.props.match.params.userId);
   }
 
   render() {
-    const user = this.props.singleUser || {};
-    console.log('this is user', user)
+    const user = this.props.user || {};
     return (
       <div id="single-user">
         <h2 id="title-users">USER</h2>
@@ -22,13 +21,13 @@ class SingleUser extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    singleUser: state.singleUser,
+    user: state.user,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getSingleUser: (id) => dispatch(fetchSingleUser(id)),
+    getUser: (userId) => dispatch(fetchUser(userId)),
   };
 };
 
