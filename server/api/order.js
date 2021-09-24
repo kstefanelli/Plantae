@@ -13,6 +13,7 @@ const requireToken = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     const user = await User.findByToken(token);
+    console.log(user);
     req.user = user;
     next();
   } catch (error) {
@@ -45,20 +46,14 @@ const isUser = (req, res, next) => {
 /////////////////^middleware////////////////
 
 //all orders for admins//working
-router.get(
-  "/allOrders",
-  requireToken,
-  isAdmin,
-  isUser,
-  async (req, res, next) => {
-    try {
-      const orders = await Order.findAll();
-      res.json(orders);
-    } catch (err) {
-      next(err);
-    }
+router.get("/", requireToken, async (req, res, next) => {
+  try {
+    const orders = await Order.findAll();
+    res.json(orders);
+  } catch (err) {
+    next(err);
   }
-);
+});
 
 //working
 router.get("/:userId", requireToken, isUser, async (req, res, next) => {
