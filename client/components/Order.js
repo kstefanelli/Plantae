@@ -1,39 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchSingleOrder } from "../store/order";
+import { fetchSingleOrder } from "../store/singleOrder";
 
 export class Order extends React.Component {
-  // componentDidMount() {
-  //   this.props.loadInitialData();
-  //   const id = this.props.match.params.id;
-  //   this.props.getOrder(id);
-  // }
-
-  //   render() {
-  //     const orderId = this.props.order.id || "";
-  //     return (
-  //       <div>
-  //         <h3>{orderId}</h3>
-  //       </div>
-  //     );
-  //   }
-  // }
+  componentDidMount() {
+    const id = this.props.match.params.id;
+    this.props.getOrder(id);
+  }
 
   render() {
-    return <div>Single Order page</div>;
+    // const orderId = this.props.order.id || "";
+    return (
+      <div>
+        <h3>SINGLE ORDER</h3>
+        <h3>{this.props.order}</h3>
+      </div>
+    );
   }
 }
 
-// const mapStateToProps = (state) => {
-//   return {
-//     order: state.singleOrder,
-//   };
-// };
+const mapStateToProps = (state) => {
+  return {
+    order: state.singleOrder,
+  };
+};
 
-// const mapDispatchToProps = (dispatch) => ({
-//   getOrder: (userId) => dispatch(fetchSingleOrder(userId)),
-//   loadInitialData: () => dispatch(me()),
-// });
+const mapDispatchToProps = (dispatch) => ({
+  getOrder: (userId) => dispatch(fetchSingleOrder(userId)),
+});
 
-export default Order;
-//export default connect(mapStateToProps, mapDispatchToProps)(Order)
+export default connect(mapStateToProps, mapDispatchToProps)(Order);

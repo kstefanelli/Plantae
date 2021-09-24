@@ -4,8 +4,8 @@ import { fetchAllOrders } from "../store/order";
 
 export class AllOrders extends React.Component {
   componentDidMount() {
-    this.props.getOrders();
-    console.log("SHOULD BE ORDERS IN ALLORDERS", this.props.orders);
+    this.props.getAllOrders();
+    console.log("SHOULD BE ORDERS IN ALL ORDERS", this.props.orders);
   }
 
   render() {
@@ -30,7 +30,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getOrders: () => dispatch(fetchAllOrders()),
+  getAllOrders: () => dispatch(fetchAllOrders()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllOrders);

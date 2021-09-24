@@ -23,7 +23,8 @@ const requireToken = async (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
   try {
-    if (!req.user.isAdmin) {
+    console.log("REQ USER", req.user.userType);
+    if (!req.user.userType === "ADMIN") {
       throw new Error("You are not an Admin!");
     }
     next();
@@ -46,7 +47,7 @@ const isUser = (req, res, next) => {
 /////////////////^middleware////////////////
 
 //all orders for admins//working
-router.get("/", requireToken, async (req, res, next) => {
+router.get("/", requireToken, isAdmin, async (req, res, next) => {
   try {
     const orders = await Order.findAll();
     res.json(orders);
@@ -55,8 +56,9 @@ router.get("/", requireToken, async (req, res, next) => {
   }
 });
 
-//working
-router.get("/:userId", requireToken, isUser, async (req, res, next) => {
+//working //need to add back isUser
+router.get("/:userId", requireToken, async (req, res, next) => {
+  //conditional either match id or admin
   try {
     const order = await Order.findOne({
       where: {
