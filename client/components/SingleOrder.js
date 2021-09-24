@@ -9,11 +9,14 @@ export class SingleOrder extends React.Component {
   }
 
   render() {
-    // const orderId = this.props.order.id || "";
+    const orderId = this.props.order.id || "";
     return (
       <div>
-        <h3>SINGLE ORDER</h3>
-        <h3>{this.props.order}</h3>
+        <h3>ORDER {orderId}</h3>
+        <p>
+          TOTAL PRICE: {this.props.order.totalPrice} <br />
+          ORDER STATUS: {this.props.order.orderStatus} <br />
+        </p>
       </div>
     );
   }
