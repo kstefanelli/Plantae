@@ -1,26 +1,26 @@
 import axios from "axios";
 const TOKEN = 'token'
 
-const SET_USERS = "SET_USERS";
+const SET_USER = "SET_USER";
 
-export const setUsers = (users) => {
+export const setUser = (user) => {
   return {
-    type: SET_USERS,
-    users,
+    type: SET_USER,
+    user,
   };
 };
 
-export const fetchUsers = () => {
+export const fetchUser = (userId) => {
   return async (dispatch) => {
     try {
       const token = window.localStorage.getItem(TOKEN);
       if(token){
-      const { data }  = await axios.get(`/api/users`,{
+      const { data }  = await axios.get(`/api/users/${userId}`,{
       headers: {
         authorization: token
       }
       })
-      dispatch(setUsers(data));
+      dispatch(setUser(data));
     }
     } catch (error) {
       console.log(error);
@@ -28,13 +28,12 @@ export const fetchUsers = () => {
   };
 };
 
-const initialState = [];
+const initialState = {};
 
-export default function allUsers(state = initialState, action) {
+export default function singleUser(state = initialState, action) {
   switch (action.type) {
-    case SET_USERS:
-      return action.users;
-
+    case SET_USER:
+      return action.user;
     default:
       return state;
   }

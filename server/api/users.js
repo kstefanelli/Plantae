@@ -1,44 +1,14 @@
 const router = require("express").Router();
 const {
-  models: { User, Order, CartItem },
-} = require("../db");
+  requireToken,
+  isAdmin,
+  isUser,
+  isUserOrAdmin,
+} = require("./middlewares");
+const User = require("../db/models/User");
 
 module.exports = router;
 
-const requireToken = async (req, res, next) => {
-  try {
-    const token = req.headers.authorization;
-    const user = await User.findByToken(token);
-    req.user = user;
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-
-const isAdmin = (req, res, next) => {
-  try {
-    if (!req.user.isAdmin) {
-      throw new Error("You are not an Admin!");
-    }
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-
-const isUser = (req, res, next) => {
-  try {
-    if (req.user.id !== req.params.id) {
-      throw new Error("Unauthorized!");
-    }
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-
-///////////////////////////////(BELOW) PURELY USERS ROUTES. NOT ORDER INFO.//////////////////////////////
 //Get all the users - only for admin access
 // /api/users/
 router.get("/", requireToken, isAdmin, async (req, res, next) => {
@@ -52,22 +22,16 @@ router.get("/", requireToken, isAdmin, async (req, res, next) => {
 
 //Get individual user account details - only for matching user and admin access
 // /api/users/:userId
-router.get(
-  "/:userId",
-  requireToken,
-  isAdmin,
-  isUser,
-  async (req, res, next) => {
-    try {
-      const user = await User.findByPk(req.params.userId, {
-        attributes: ["id", "username", "email"],
-      });
-      res.json(user);
-    } catch (err) {
-      next(err);
-    }
+router.get("/:id", requireToken, isUserOrAdmin, async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id, {
+      attributes: ["id", "username", "email"],
+    });
+    res.json(user);
+  } catch (err) {
+    next(err);
   }
-);
+});
 
 // //Add/POST user - creating a new user
 // // /api/users/

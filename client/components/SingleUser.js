@@ -1,13 +1,35 @@
 import React from "react";
-//import {connect} from 'react-redux'
+import { connect } from "react-redux";
+import { fetchUser } from "../store/singleUser";
 
-export const SingleUser = () => {
-  return (
-    <div>
-      <h3>SingleUser Component</h3>
-    </div>
-  );
+class SingleUser extends React.Component {
+  componentDidMount() {
+    this.props.getUser(this.props.match.params.userId);
+  }
+
+  render() {
+    const username = this.props.user.username || "";
+    const email = this.props.user.email || "";
+    return (
+      <div id="single-user">
+        <h2 id="title-users">USER</h2>
+        <div> Username: {username} </div>
+        <div> Email: {email}</div>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
 };
 
-export default SingleUser; //comment if uncommenting below
-//export default connect(mapState)(SingleUser) //uncomment when mapState and/or mapDispatch added
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUser: (userId) => dispatch(fetchUser(userId)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleUser);

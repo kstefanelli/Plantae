@@ -1,50 +1,8 @@
 const router = require("express").Router();
-const Order = require("../db/models/Order");
-const CartItem = require("../db/models/CartItem");
-const User = require("../db/models/User");
-const Product = require("../db/models/Product");
-//this route needs to be secure to specific user if there is a user, if guest should create a new empty order?
-
-//updates the order with the product that was selected, capture the product id, attach that to the cartitem from the front end and create
-// that then dispatches an update order route, that then accesses the database and creates a new cartitem with the orderid and the productid,
-// sends back new order page with new cart item and all cart items included
-
-const requireToken = async (req, res, next) => {
-  try {
-    const token = req.headers.authorization;
-    const user = await User.findByToken(token);
-    console.log(user);
-    req.user = user;
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-
-const isAdmin = (req, res, next) => {
-  try {
-    console.log("REQ USER", req.user.userType);
-    if (!req.user.userType === "ADMIN") {
-      throw new Error("You are not an Admin!");
-    }
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-
-const isUser = (req, res, next) => {
-  try {
-    if (req.user.id !== req.params.id) {
-      throw new Error("Unauthorized!");
-    }
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-
-/////////////////^middleware////////////////
+const {
+  models: { User, Product, CartItem, Order },
+} = require("../db");
+const { requireToken, isAdmin, isUser } = require("./middlewares");
 
 //all orders for admins//working
 router.get("/", requireToken, isAdmin, async (req, res, next) => {
