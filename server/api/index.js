@@ -1,10 +1,8 @@
 const router = require("express").Router();
 module.exports = router;
 
-router.use("/users", require("./users"));
-
 //ADDED API ROUTES
-// router.use("/cart", require("./cart"));
+router.use("/users", require("./users"));
 router.use("/order", require("./order"));
 router.use("/products", require("./product"));
 

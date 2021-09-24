@@ -1,29 +1,6 @@
 const router = require("express").Router();
 const Product = require("../db/models/Product");
-
-const requireToken = async (req, res, next) => {
-  try {
-    const token = req.headers.authorization;
-    const user = await User.findByToken(token);
-    req.user = user;
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-
-const isAdmin = (req, res, next) => {
-  try {
-    if (!req.user.isAdmin) {
-      throw new Error("You are not an Admin!");
-    }
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-
-//////////////////////////^Middleware///////////////////////////////////////////
+const { requireToken, isAdmin } = require("./middlewares");
 
 router.get("/", async (req, res, next) => {
   try {
