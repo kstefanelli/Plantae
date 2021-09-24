@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchAllOrders } from "../store/order";
+import { Link } from "react-router-dom";
 
 export class AllOrders extends React.Component {
   componentDidMount() {
@@ -15,7 +16,13 @@ export class AllOrders extends React.Component {
         <h3>Orders</h3>
         <div>
           {orders.map((order) => {
-            return <div key={order.id}>ORDER</div>;
+            return (
+              <div key={order.id}>
+                <Link to={`/order/${order.id}`}>
+                  <h3>ORDER NUMBER: {order.id}</h3>
+                </Link>
+              </div>
+            );
           })}
         </div>
       </div>

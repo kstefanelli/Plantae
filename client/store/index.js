@@ -9,7 +9,6 @@ import orders from "./order";
 import singleOrder from "./singleOrder";
 import allUsers from "./user";
 import singleUser from "./singleUser";
-import order from "./order";
 import product from "./product";
 import singleProduct from "./singleProduct";
 
