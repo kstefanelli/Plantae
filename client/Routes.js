@@ -13,6 +13,7 @@ import AllOrders from "./components/AllOrders";
 import Checkout from "./components/Checkout";
 import SingleProduct from "./components/SingleProduct";
 import SingleUser from "./components/SingleUser";
+import Cart from "./components/Cart";
 
 /**
  * COMPONENT
@@ -36,8 +37,8 @@ class Routes extends Component {
             <Route path="/products/:id" component={SingleProduct} />
             <Route path="/products" exact component={AllProducts} />
             <Route path="/order" exact component={AllOrders} />
-            <Route path="/order/:id" exact component={SingleOrder} />
-
+            <Route path="/order/:id/:orderId" exact component={SingleOrder} />
+            <Route path="/cart" exact component={Cart} />
             <Redirect to="/home" />
           </Switch>
         ) : (

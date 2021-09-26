@@ -156,53 +156,57 @@ const products = [
   },
 ];
 
-const seed = async() => {
+const seed = async () => {
   try {
-    await db.sync({force: true});
+    await db.sync({ force: true });
 
     const anna = await User.create({
       username: "anna",
       password: "123",
       email: "anna@email.com",
       userType: "ADMIN",
-    })
+    });
     const kristina = await User.create({
       username: "kristina",
       password: "123",
       email: "kristina@email.com",
       userType: "ADMIN",
-    })
+    });
     const gigi = await User.create({
       username: "gigi",
       password: "123",
       email: "gigi@email.com",
       userType: "ADMIN",
-    })
+    });
     const customer = await User.create({
       username: "customer",
       password: "123",
       email: "customer@email.com",
       userType: "CUSTOMER",
-    })
+    });
 
     const newProducts = await products.map((product) => {
-      Product.create(product)
-    })
+      Product.create(product);
+    });
 
-    let order1 = await Order.create({userId: anna.id})
-    let order2 = await Order.create({userId: kristina.id})
-    let order3 = await Order.create({userId: gigi.id})
-    let order4 = await Order.create({userId: customer.id})
+    let order1 = await Order.create({ userId: anna.id });
+    let order2 = await Order.create({ userId: kristina.id });
+    let order3 = await Order.create({ userId: gigi.id });
+    let order4 = await Order.create({ userId: customer.id });
+    let order5 = await Order.create({
+      userId: gigi.id,
+      orderStatus: "FULFILLED",
+    });
 
-    await CartItem.create({orderId: order1.id, productId: 1})
-    await CartItem.create({orderId: order2.id, productId: 1})
-    await CartItem.create({orderId: order3.id, productId: 1})
-    await CartItem.create({orderId: order4.id, productId: 1})
-
+    await CartItem.create({ orderId: order1.id, productId: 1 });
+    await CartItem.create({ orderId: order2.id, productId: 1 });
+    await CartItem.create({ orderId: order3.id, productId: 1 });
+    await CartItem.create({ orderId: order4.id, productId: 1 });
+    await CartItem.create({ orderId: order5.id, productId: 1 });
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-}
+};
 
 //updated the seed to reflect cart --> order changes
 

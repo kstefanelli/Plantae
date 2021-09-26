@@ -14,6 +14,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           <Link to="/order">All Orders (Only for Admins)</Link>
           <Link to="/users">All Users (Only for Admins)</Link>
           <Link to="/products">All Products</Link>
+          <Link to="/cart">Shopping Cart</Link>
           <a href="#" onClick={handleClick}>
             Logout
           </a>

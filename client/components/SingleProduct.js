@@ -6,7 +6,6 @@ export class SingleProduct extends React.Component {
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.getProduct(id);
-    console.log(this.props);
   }
   render() {
     const productName = this.props.product.name || "";

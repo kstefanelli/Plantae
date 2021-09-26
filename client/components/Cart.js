@@ -1,12 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchSingleOrder } from "../store/singleOrder";
+import { fetchCurrentOrder } from "../store/singleOrder";
 
-export class SingleOrder extends React.Component {
+export class CurrentOrder extends React.Component {
   componentDidMount() {
     const userId = this.props.auth.id;
-    const orderId = this.props.match.params.orderId;
-    this.props.getOrder(userId, orderId);
+    this.props.getOrder(userId);
   }
 
   render() {
@@ -34,7 +33,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getOrder: (userId, orderId) => dispatch(fetchSingleOrder(userId, orderId)),
+  getOrder: (userId) => dispatch(fetchCurrentOrder(userId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleOrder);
+export default connect(mapStateToProps, mapDispatchToProps)(CurrentOrder);

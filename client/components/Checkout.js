@@ -4,7 +4,7 @@ import React from "react";
 export const Checkout = () => {
   return (
     <div>
-      <h3>Checkout Component</h3>
+      <h3>Checkout Page</h3>
     </div>
   );
 };
