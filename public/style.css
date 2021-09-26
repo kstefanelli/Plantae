@@ -34,3 +34,14 @@ img {
   padding: 0.5rem;
   /* background-color: #197278; */
 }
+.menu__cart {
+  align-items: center;
+  background: url(https://media.istockphoto.com/vectors/shopping-cart-icon-isolated-on-white-background-vector-id1206806317?k=20&m=1206806317&s=612x612&w=0&h=waK8qOHV2Fgz2ntEWHWBQtXpNDAQ_wdhd4tkTUz6tfE=) 50% no-repeat;
+  border: 0;
+  display: flex;
+  font-family: Circular,sans-serif;
+  font-weight: 400;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
