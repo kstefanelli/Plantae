@@ -3,17 +3,15 @@ import { connect } from "react-redux";
 import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Login, Signup } from "./components/AuthForm";
 import Home from "./components/Home";
-import { me } from "./store/auth";
+import { me } from "./store";
 
 //Added components//
 import AllProducts from "./components/AllProducts";
 import AllUsers from "./components/AllUsers";
-import SingleOrder from "./components/SingleOrder";
-import AllOrders from "./components/AllOrders";
+import Cart from "./components/Cart";
+import Checkout from "./components/ConfirmationPage";
 import SingleProduct from "./components/SingleProduct";
 import SingleUser from "./components/SingleUser";
-import Cart from "./components/Cart";
-import ConfirmationPage from "./components/ConfirmationPage";
 
 /**
  * COMPONENT
@@ -30,6 +28,16 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
+<<<<<<< HEAD
+            <Route path="/home" component={Home} />
+            <Route path="/products/:id" component={SingleProduct} />
+            <Route path="/products" exact component={AllProducts} />
+            <Redirect to="/home" />
+          </Switch>
+        ) : (
+          <Switch>
+            <Route path="/" exact component={Login} />
+=======
             <Route exact path="/" component={AllProducts} />
             <Route exact path="/users" component={AllUsers} />
             <Route exact path="/users/:userId" component={SingleUser} />
@@ -48,12 +56,13 @@ class Routes extends Component {
         ) : (
           <Switch>
             <Route exact path="/" component={AllProducts} />
+>>>>>>> 6ba3cba4c616bea1b4cf5e4c827191feeed9088d
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-
-            <Route exact path="/users" component={AllUsers} />
-            <Route exact path="/users/:userId" component={SingleUser} />
             <Route path="/products/:id" component={SingleProduct} />
+<<<<<<< HEAD
+            <Route path="/products" exact component={AllProducts} />
+=======
             <Route path="/products" component={AllProducts} />
             <Route path="/order/:id/:orderId" component={SingleOrder} />
             <Route path="/cart"component={Cart} />
@@ -62,6 +71,7 @@ class Routes extends Component {
               exact
               component={ConfirmationPage}
             />
+>>>>>>> 6ba3cba4c616bea1b4cf5e4c827191feeed9088d
           </Switch>
         )}
       </div>
