@@ -1,6 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchCurrentOrder } from "../store/singleOrder";
+import ConfirmationPage from "./ConfirmationPage";
+import { Link } from "react-router-dom";
+import history from "../history";
+import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 
 export class CurrentOrder extends React.Component {
   componentDidMount() {
@@ -20,10 +24,19 @@ export class CurrentOrder extends React.Component {
           ORDER STATUS: {status}
           <br />
         </p>
+        <a href="/confirmationPage" onClick={confirmationPage}>
+          Checkout
+        </a>
+        {/* onclick, go to ConfirmationPage component */}
       </div>
     );
   }
 }
+
+const confirmationPage = () => {
+  //need to add functionality - needs to submit the order and change orderStatus to "FULFILLED"
+  console.log("Clicked");
+};
 
 const mapStateToProps = (state) => {
   return {

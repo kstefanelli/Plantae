@@ -1,13 +1,13 @@
 import React from "react";
 //import {connect} from 'react-redux'
 
-export const Checkout = () => {
+export const ConfirmationPage = () => {
   return (
     <div>
-      <h3>Checkout Page</h3>
+      <h3>Thanks for placing your order!</h3>
     </div>
   );
 };
 
-export default Checkout; //comment if uncommenting below
+export default ConfirmationPage; //comment if uncommenting below
 //export default connect(mapState)(Checkout) //uncomment when mapState and/or mapDispatch added

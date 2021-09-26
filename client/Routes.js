@@ -10,10 +10,10 @@ import AllProducts from "./components/AllProducts";
 import AllUsers from "./components/AllUsers";
 import SingleOrder from "./components/SingleOrder";
 import AllOrders from "./components/AllOrders";
-import Checkout from "./components/Checkout";
 import SingleProduct from "./components/SingleProduct";
 import SingleUser from "./components/SingleUser";
 import Cart from "./components/Cart";
+import ConfirmationPage from "./components/ConfirmationPage";
 
 /**
  * COMPONENT
@@ -30,8 +30,7 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
-            <Route path="/home" component={Home} />
-
+            <Route exact path="/" exact component={AllProducts} />
             <Route exact path="/users" component={AllUsers} />
             <Route exact path="/users/:userId" component={SingleUser} />
             <Route path="/products/:id" component={SingleProduct} />
@@ -39,11 +38,16 @@ class Routes extends Component {
             <Route path="/order" exact component={AllOrders} />
             <Route path="/order/:id/:orderId" exact component={SingleOrder} />
             <Route path="/cart" exact component={Cart} />
-            <Redirect to="/home" />
+            <Route
+              path="/confirmationPage"
+              exact
+              component={ConfirmationPage}
+            />
+            <Redirect to="/products" />
           </Switch>
         ) : (
           <Switch>
-            <Route path="/" exact component={Login} />
+            <Route exact path="/" exact component={AllProducts} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
 
@@ -51,6 +55,13 @@ class Routes extends Component {
             <Route exact path="/users/:userId" component={SingleUser} />
             <Route path="/products/:id" component={SingleProduct} />
             <Route path="/products" exact component={AllProducts} />
+            <Route path="/order/:id/:orderId" exact component={SingleOrder} />
+            <Route path="/cart" exact component={Cart} />
+            <Route
+              path="/confirmationPage"
+              exact
+              component={ConfirmationPage}
+            />
           </Switch>
         )}
       </div>
