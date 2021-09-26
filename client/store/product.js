@@ -3,6 +3,8 @@ import axios from "axios";
 //ACTION TYPES
 const SET_PRODUCTS = "SET_PRODUCTS";
 const DELETE_PRODUCT = "DELETE_PRODUCT"
+const CREATE_PRODUCT = "CREATE_PRODUCT"
+
 //ACTION CREATORS
 export const setProducts = (products) => {
   return {
@@ -14,6 +16,13 @@ export const setProducts = (products) => {
 export const deleteProduct = (product) => {
   return {
     type: DELETE_PRODUCT,
+    product
+  }
+}
+
+export const createProduct = (product) => {
+  return {
+    type: CREATE_PRODUCT,
     product
   }
 }
@@ -43,6 +52,18 @@ export const deleteSingleProduct = (productId, history) => {
   }
 }
 
+export const createNewProduct = (product, history) => {
+  return async(dispatch) => {
+    try {
+      const { data: created } = await axios.post('/api/products', product);
+      dispatch(createProduct(created))
+      history.push('/products')
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+};
 //INITIAL STATE
 const initialState = [];
 
@@ -53,6 +74,8 @@ export default (state = initialState, action) => {
       return action.products;
     case DELETE_PRODUCT:
       return state.filter((product) => product.id !== action.product.id)
+    case CREATE_PRODUCT:
+      return [...state, action.product];
     default:
       return state;
   }
