@@ -38,7 +38,7 @@ export const fetchProducts = () => {
     }
   };
 };
-
+//look at user store
 export const deleteSingleProduct = (productId, history) => {
   return async(dispatch) => {
     try {

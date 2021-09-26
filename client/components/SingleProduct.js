@@ -59,7 +59,7 @@ export class SingleProduct extends React.Component {
         <img src={imageUrl} />
           {description} <br />
           Price: ${price / 100} <br />
-          {this.props.isLoggedIn ? (
+          {this.props.isAdmin ? (
             <div>
               Inventory: {inventory}
               <form onSubmit={handleSubmit}>
@@ -90,6 +90,7 @@ const mapStateToProps = (state) => {
     product: state.singleProduct,
     // singleOrder: state.singleOrder
     isLoggedIn: !!state.auth.id,
+    isAdmin: !!state.auth.isAdmin
 
   };
 };

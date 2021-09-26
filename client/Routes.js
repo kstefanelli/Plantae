@@ -28,6 +28,7 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
+<<<<<<< HEAD
             <Route path="/home" component={Home} />
             <Route path="/products/:id" component={SingleProduct} />
             <Route path="/products" exact component={AllProducts} />
@@ -36,10 +37,41 @@ class Routes extends Component {
         ) : (
           <Switch>
             <Route path="/" exact component={Login} />
+=======
+            <Route exact path="/" component={AllProducts} />
+            <Route exact path="/users" component={AllUsers} />
+            <Route exact path="/users/:userId" component={SingleUser} />
+            <Route path="/products/:id" component={SingleProduct} />
+            <Route path="/products" exact component={AllProducts} />
+            <Route path="/order" exact component={AllOrders} />
+            <Route path="/order/:id/:orderId" exact component={SingleOrder} />
+            <Route path="/cart" exact component={Cart} />
+            <Route
+              path="/confirmationPage"
+              exact
+              component={ConfirmationPage}
+            />
+            <Redirect to="/"/>
+          </Switch>
+        ) : (
+          <Switch>
+            <Route exact path="/" component={AllProducts} />
+>>>>>>> 6ba3cba4c616bea1b4cf5e4c827191feeed9088d
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/products/:id" component={SingleProduct} />
+<<<<<<< HEAD
             <Route path="/products" exact component={AllProducts} />
+=======
+            <Route path="/products" component={AllProducts} />
+            <Route path="/order/:id/:orderId" component={SingleOrder} />
+            <Route path="/cart"component={Cart} />
+            <Route
+              path="/confirmationPage"
+              exact
+              component={ConfirmationPage}
+            />
+>>>>>>> 6ba3cba4c616bea1b4cf5e4c827191feeed9088d
           </Switch>
         )}
       </div>
