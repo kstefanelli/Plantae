@@ -24,7 +24,6 @@ export const fetchAllOrders = () => {
           },
         });
         const orders = response.data;
-        console.log("THIS IS ORDERS", orders);
         dispatch(setAllOrders(orders));
       }
     } catch (err) {
@@ -40,7 +39,6 @@ const initialState = [];
 export default (state = initialState, action) => {
   switch (action.type) {
     case SET_ALL_ORDERS:
-      console.log("ACTION ORDERS", action.orders);
       return action.orders;
     default:
       return state;

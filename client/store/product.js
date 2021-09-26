@@ -1,39 +1,37 @@
 import axios from "axios";
 
 //ACTION TYPES
-const SET_PRODUCTS = 'SET_PRODUCTS';
+const SET_PRODUCTS = "SET_PRODUCTS";
 
 //ACTION CREATORS
 export const setProducts = (products) => {
   return {
     type: SET_PRODUCTS,
-    products
-  }
+    products,
+  };
 };
 //THUNK CREATORS
 export const fetchProducts = () => {
-  return async(dispatch) => {
+  return async (dispatch) => {
     try {
-      const response = await axios.get('/api/products');
+      const response = await axios.get("/api/products");
       const products = response.data;
-      console.log("THIS IS PRODUCTS", products)
-      dispatch(setProducts(products))
+      dispatch(setProducts(products));
+    } catch (err) {
+      console.log(err);
     }
-    catch (err){
-      console.log(err)
-    }
-  }
+  };
 };
 
 //INITIAL STATE
-const initialState = []
+const initialState = [];
 
 //REDUCER
 export default (state = initialState, action) => {
-    switch (action.type) {
-      case SET_PRODUCTS:
-        return action.products;
-      default:
-        return state
-    }
+  switch (action.type) {
+    case SET_PRODUCTS:
+      return action.products;
+    default:
+      return state;
   }
+};

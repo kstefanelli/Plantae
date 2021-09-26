@@ -6,11 +6,11 @@ import { Link } from "react-router-dom";
 export class AllOrders extends React.Component {
   componentDidMount() {
     this.props.getAllOrders();
-    console.log("SHOULD BE ORDERS IN ALL ORDERS", this.props.orders);
   }
 
   render() {
     const orders = this.props.orders || [];
+    const userId = this.props.auth.id;
     return (
       <div>
         <h3>Orders</h3>
@@ -18,7 +18,7 @@ export class AllOrders extends React.Component {
           {orders.map((order) => {
             return (
               <div key={order.id}>
-                <Link to={`/order/${order.id}`}>
+                <Link to={`/order/${userId}/${order.id}`}>
                   <h3>ORDER NUMBER: {order.id}</h3>
                 </Link>
               </div>
@@ -33,6 +33,7 @@ export class AllOrders extends React.Component {
 const mapStateToProps = (state) => {
   return {
     orders: state.orders,
+    auth: state.auth,
   };
 };
 

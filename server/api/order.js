@@ -14,13 +14,55 @@ router.get("/", requireToken, isAdmin, async (req, res, next) => {
   }
 });
 
-//working //need to add back isUser
-router.get("/:userId", requireToken, async (req, res, next) => {
-  //conditional either match id or admin
+// //Gets all the users orders //for admin and matching user
+// router.get("/:userId", requireToken, async (req, res, next) => {
+//   try {
+//     if (isUser || isAdmin) {
+//       const order = await Order.findOne({
+//         where: {
+//           userId: req.params.userId,
+//         },
+//         include: [
+//           {
+//             model: Product,
+//           },
+//         ],
+//       });
+//       res.json(order);
+//     }
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
+//Get single order by ID
+router.get("/:userId/:orderId", requireToken, async (req, res, next) => {
+  try {
+    if (isUser || isAdmin) {
+      const order = await Order.findOne({
+        where: {
+          id: req.params.orderId,
+        },
+        include: [
+          {
+            model: Product,
+          },
+        ],
+      });
+      res.send(order);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+//Get current order
+router.get("/currentOrder/:userId", requireToken, async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
         userId: req.params.userId,
+        orderStatus: "ACTIVE CART",
       },
       include: [
         {
