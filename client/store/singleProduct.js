@@ -1,4 +1,5 @@
 import axios from "axios";
+const TOKEN = 'token'
 
 //ACTION TYPES
 const SET_SINGLE_PRODUCT = "SET_SINGLE_PRODUCT";
@@ -35,10 +36,16 @@ export const fetchSingleProduct = (id) => {
 export const updateProduct = (id, product, history) => {
   return async (dispatch) => {
     try {
-      const { data: updated } = await axios.put(`/api/products/${id}`, product);
+      const token = window.localStorage.getItem(TOKEN);
+      if(token){
+      const { data: updated } = await axios.put(`/api/products/${id}`, product, {
+        headers: {
+          authorization: token
+        }
+        });
       dispatch(updateSingleProduct(updated));
       history.push(`/products/${id}`)
-
+      }
     } catch (err) {
       console.log(err);
     }

@@ -10,55 +10,40 @@ export class AllProducts extends React.Component {
   }
 
   render() {
-    const products = this.props.products || []
+    const products = this.props.products || [];
     return (
-<<<<<<< HEAD
       <div>
       {this.props.isLoggedIn ? (
-          <div>
-            {products.map((product) => {
+            products.map((product) => {
               return (
-                <div key = {product.id}>
-                <img src = {product.imageURL}/>
-                <h5>
-                  <Link to = {`/products/${product.id}`}>{product.name}</Link>
-=======
-      <div className="title-products">
-        <h3>PRODUCT LIST</h3>
-        <div>
-          {products.map((product) => {
-            return (
-              <div className="all-products" key={product.id}>
-                <h5>
-                  <Link to={`/products/${product.id}`}>
-                    <img src={product.imageURL} />
-                    {product.name} ${product.price / 100}
-                  </Link>
->>>>>>> 6ba3cba4c616bea1b4cf5e4c827191feeed9088d
-                </h5>
-                <button type="button" className ="btn btn-primary" onClick = {() => {this.props.deleteProduct(product.id)}}>X</button>
+                <div className="title-products" key = {product.id}>
+                  <div className="all-products" >
+                    <img src = {product.imageURL}/>
+                    <h5>
+                      <Link to = {`/products/${product.id}`}>{product.name} ${product.price / 100}</Link>
+                    </h5>
+                    <button type="button" className ="btn btn-primary" onClick = {() => {this.props.deleteProduct(product.id)}}>X</button>
+                  </div>
                 </div>
-              )
-            })}
-          </div>
-      ) : (<div>
-        {products.map((product) => {
+                )
+              })
+              ) : (
+        products.map((product) => {
           return (
-            <div key = {product.id}>
-            <img src = {product.imageURL}/>
-            <h5>
-              <Link to = {`/products/${product.id}`}>{product.name}</Link>
-            </h5>
-            </div>
-          )
-        })}
-      </div>)
+            <div className="title-products" key = {product.id}>
+                  <div className="all-products" >
+                    <img src = {product.imageURL}/>
+                    <h5>
+                      <Link to = {`/products/${product.id}`}>{product.name} ${product.price / 100}</Link>
+                    </h5>
+                  </div>
+                </div>
+          )}))
       }
       </div>
     )
   }
-};
-
+}
 
 const mapStateToProps = (state) => {
   return {

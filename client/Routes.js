@@ -12,7 +12,9 @@ import Cart from "./components/Cart";
 import Checkout from "./components/ConfirmationPage";
 import SingleProduct from "./components/SingleProduct";
 import SingleUser from "./components/SingleUser";
-
+import SingleOrder from "./store/singleOrder";
+import ConfirmationPage from "./components/ConfirmationPage";
+import AllOrders from "./components/AllOrders"
 /**
  * COMPONENT
  */
@@ -28,16 +30,6 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
-<<<<<<< HEAD
-            <Route path="/home" component={Home} />
-            <Route path="/products/:id" component={SingleProduct} />
-            <Route path="/products" exact component={AllProducts} />
-            <Redirect to="/home" />
-          </Switch>
-        ) : (
-          <Switch>
-            <Route path="/" exact component={Login} />
-=======
             <Route exact path="/" component={AllProducts} />
             <Route exact path="/users" component={AllUsers} />
             <Route exact path="/users/:userId" component={SingleUser} />
@@ -56,13 +48,9 @@ class Routes extends Component {
         ) : (
           <Switch>
             <Route exact path="/" component={AllProducts} />
->>>>>>> 6ba3cba4c616bea1b4cf5e4c827191feeed9088d
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/products/:id" component={SingleProduct} />
-<<<<<<< HEAD
-            <Route path="/products" exact component={AllProducts} />
-=======
             <Route path="/products" component={AllProducts} />
             <Route path="/order/:id/:orderId" component={SingleOrder} />
             <Route path="/cart"component={Cart} />
@@ -71,7 +59,6 @@ class Routes extends Component {
               exact
               component={ConfirmationPage}
             />
->>>>>>> 6ba3cba4c616bea1b4cf5e4c827191feeed9088d
           </Switch>
         )}
       </div>
