@@ -36,20 +36,6 @@ export class AllProducts extends React.Component {
             );
           })}
         </div>
-        ) : (
-        <div>
-          {products.map((product) => {
-            return (
-              <div key={product.id}>
-                <img src={product.imageURL} />
-                <h5>
-                  <Link to={`/products/${product.id}`}>{product.name}</Link>
-                </h5>
-              </div>
-            );
-          })}
-        </div>
-        ) }
       </div>
     );
   }
