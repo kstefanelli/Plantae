@@ -11,7 +11,6 @@ export class AllProducts extends React.Component {
   render() {
     const products = this.props.products || [];
     return (
-
       <div>
       {this.props.isLoggedIn ? (
             products.map((product) => {
