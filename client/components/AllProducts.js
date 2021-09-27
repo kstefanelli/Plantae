@@ -12,7 +12,7 @@ export class AllProducts extends React.Component {
     const products = this.props.products || [];
     return (
       <div className="title-products">
-        <h3>PRODUCT LIST</h3>
+        <h3>Cat Friendly Plants</h3>
         <div>
           {products.map((product) => {
             return (
