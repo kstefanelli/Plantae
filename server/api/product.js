@@ -15,9 +15,9 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:productId", async (req, res, next) => {
   try {
-    const singleProduct = await Product.findByPk(req.params.id, {
+    const singleProduct = await Product.findByPk(req.params.productId, {
       attributes: ["id", "name", "description", "price", "imageURL", 'inventory'],
     });
     res.json(singleProduct);
@@ -36,9 +36,9 @@ router.post("/", requireToken, isAdmin, async (req, res, next) => {
 });
 
 //admin only - edit products
-router.put("/:id", requireToken, isAdmin, async (req, res, next) => {
+router.put("/:productId", requireToken, isAdmin, async (req, res, next) => {
   try {
-    const product = await Product.findByPk(req.params.id);
+    const product = await Product.findByPk(req.params.productId);
     res.json(await product.update(req.body));
   } catch (error) {
     next(error);
@@ -46,9 +46,9 @@ router.put("/:id", requireToken, isAdmin, async (req, res, next) => {
 });
 
 //admin only - remove products
-router.delete("/:id", requireToken, isAdmin, async (req, res, next) => {
+router.delete("/:productId", requireToken, isAdmin, async (req, res, next) => {
   try {
-    const product = await Product.findByPk(req.params.id);
+    const product = await Product.findByPk(req.params.productId);
     await product.destroy();
     res.json(product);
   } catch (error) {

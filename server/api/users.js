@@ -22,9 +22,9 @@ router.get("/", requireToken, isAdmin, async (req, res, next) => {
 
 //Get individual user account details - only for matching user and admin access
 // /api/users/:userId
-router.get("/:id", requireToken, isUserOrAdmin, async (req, res, next) => {
+router.get("/:userId", requireToken, isUserOrAdmin, async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id, {
+    const user = await User.findByPk(req.params.userId, {
       attributes: ["id", "username", "email"],
     });
     res.json(user);
@@ -32,16 +32,6 @@ router.get("/:id", requireToken, isUserOrAdmin, async (req, res, next) => {
     next(err);
   }
 });
-
-// //Add/POST user - creating a new user
-// // /api/users/
-// router.post("/", async (req, res, next) => {
-//   try {
-//     res.status(201).json(await User.create(req.body));
-//   } catch (err) {
-//     next(err);
-//   }
-// });
 
 //Delete user - admin only
 // /api/users/:userId
