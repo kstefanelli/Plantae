@@ -12,9 +12,10 @@ import Cart from "./components/Cart";
 import Checkout from "./components/ConfirmationPage";
 import SingleProduct from "./components/SingleProduct";
 import SingleUser from "./components/SingleUser";
-import SingleOrder from "./store/singleOrder";
+import SingleOrder from "./components/SingleOrder";
+import AllOrders from "./components/AllOrders";
 import ConfirmationPage from "./components/ConfirmationPage";
-import AllOrders from "./components/AllOrders"
+
 /**
  * COMPONENT
  */
@@ -43,7 +44,7 @@ class Routes extends Component {
               exact
               component={ConfirmationPage}
             />
-            <Redirect to="/"/>
+            <Redirect to="/" />
           </Switch>
         ) : (
           <Switch>
@@ -53,7 +54,7 @@ class Routes extends Component {
             <Route path="/products/:id" component={SingleProduct} />
             <Route path="/products" component={AllProducts} />
             <Route path="/order/:id/:orderId" component={SingleOrder} />
-            <Route path="/cart"component={Cart} />
+            <Route path="/cart" component={Cart} />
             <Route
               path="/confirmationPage"
               exact

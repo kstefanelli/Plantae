@@ -1,17 +1,17 @@
 import React from "react";
-import {connect} from 'react-redux'
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchProducts, deleteSingleProduct } from "../store/product";
 
 export class AllProducts extends React.Component {
-
-  componentDidMount(){
+  componentDidMount() {
     this.props.getProducts();
   }
 
   render() {
     const products = this.props.products || [];
     return (
+
       <div>
       {this.props.isLoggedIn ? (
             products.map((product) => {
@@ -41,7 +41,7 @@ export class AllProducts extends React.Component {
           )}))
       }
       </div>
-    )
+    );
   }
 }
 
@@ -54,7 +54,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, { history }) => ({
   getProducts: () => dispatch(fetchProducts()),
-  deleteProduct: (productId) => dispatch(deleteSingleProduct(productId, history))
+  deleteProduct: (productId) =>
+    dispatch(deleteSingleProduct(productId, history)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllProducts);
