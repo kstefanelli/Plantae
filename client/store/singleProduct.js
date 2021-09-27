@@ -38,11 +38,11 @@ export const updateProduct = (id, product, history) => {
     try {
       const token = window.localStorage.getItem(TOKEN);
       if(token){
-      const { data: updated } = await axios.put(`/api/products/${id}`, product, {
+      const { data: updated } = await axios.put(`/api/products/${id}`, {
         headers: {
           authorization: token
         }
-        });
+        }, product);
       dispatch(updateSingleProduct(updated));
       history.push(`/products/${id}`)
       }
