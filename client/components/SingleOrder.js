@@ -26,7 +26,10 @@ export class SingleOrder extends React.Component {
               return (
                 <div key={item.id}>
                   <h5>
-                    <Link to={`/products/${item.id}`}>{item.name}</Link>
+                    <Link to={`/products/${item.id}`}>
+                      <img src={item.imageURL} /> <br />
+                      {item.name}
+                    </Link>
                   </h5>
                 </div>
               );
@@ -35,7 +38,6 @@ export class SingleOrder extends React.Component {
         </div>
         <p>
           TOTAL PRICE: ${price} <br />
-          ORDER STATUS: {status} <br />
         </p>
       </div>
     );

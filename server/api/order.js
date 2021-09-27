@@ -104,12 +104,12 @@ router.post("/:userId", async (req, res, next) => {
 
 //test once we deploy
 //Update individual user current order  - only for matching user access, changing quantity
-// /api/users/:userId/order
-router.put("/:userId", requireToken, isUser, async (req, res, next) => {
+// /api/order/:userId
+router.put("/:id", requireToken, isUser, async (req, res, next) => {
   try {
     const usersCurrentOrder = await Order.findOne({
       where: {
-        userId: req.params.userId,
+        userId: req.params.id,
       },
     });
     res.json(await usersCurrentOrder.update(req.body));
@@ -119,25 +119,43 @@ router.put("/:userId", requireToken, isUser, async (req, res, next) => {
 });
 
 //delete items in current order - only for matching user access
-// /api/users/:userId/order/:cartItemId
+// /api/order/:userId/:cartItemId
 router.delete(
-  "/:userId/:cartItemId",
+  "/:id/:cartItemId",
   requireToken,
   isUser,
   async (req, res, next) => {
     try {
       const order = await Order.findOne({
         where: {
-          userId: req.params.userId,
+          userId: req.params.id,
+          orderStatus: "ACTIVE CART",
         },
+        include: [
+          {
+            model: Product,
+          },
+        ],
       });
       const item = await CartItem.findByPk(req.params.cartItemId);
       await item.destroy();
-      res.sendStatus(200);
+      res.send(item).status(200);
     } catch (err) {
       next(err);
     }
   }
 );
+
+// const order = await Order.findOne({
+//   where: {
+//     userId: req.params.userId,
+//     orderStatus: "ACTIVE CART",
+//   },
+//   include: [
+//     {
+//       model: Product,
+//     },
+//   ],
+// });
 
 module.exports = router;
