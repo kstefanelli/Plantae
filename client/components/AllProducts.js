@@ -49,7 +49,7 @@ export class AllProducts extends React.Component {
             );
           })}
         </div>
-        ) }
+        )
       </div>
     );
   }

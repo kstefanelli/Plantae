@@ -201,6 +201,7 @@ const seed = async () => {
     await CartItem.create({ orderId: order1.id, productId: 1 });
     await CartItem.create({ orderId: order2.id, productId: 1 });
     await CartItem.create({ orderId: order3.id, productId: 1 });
+    await CartItem.create({ orderId: order3.id, productId: 2 });
     await CartItem.create({ orderId: order4.id, productId: 1 });
     await CartItem.create({ orderId: order5.id, productId: 1 });
   } catch (err) {
