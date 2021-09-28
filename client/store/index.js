@@ -11,6 +11,7 @@ import allUsers from "./user";
 import singleUser from "./singleUser";
 import product from "./product";
 import singleProduct from "./singleProduct";
+import activeCart from "./userOrder"
 
 const reducer = combineReducers({
   auth,
@@ -18,6 +19,7 @@ const reducer = combineReducers({
   singleProduct,
   singleOrder,
   orders,
+  activeCart,
   users: allUsers,
   user: singleUser,
 });

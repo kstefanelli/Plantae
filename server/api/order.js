@@ -73,17 +73,19 @@ router.put('/:orderId/:userId', async (req, res, next) => {
         },
       ],
     });
+console.log(req.body.body.productId)
     const item = await CartItem.findOne({
       where: {
         orderId: order.id,
-        productId: req.body.productId
+        productId: req.body.body.productId
       }
+
     })
       if (item) {
         await item.update(req.body)
       } else {
-        req.body.orderId = order.id
-        await CartItem.create(req.body)
+        req.body.body.orderId = order.id
+        await CartItem.create(req.body.body)
       }
 
     res.json(order)
