@@ -33,14 +33,16 @@ export class CurrentOrder extends React.Component {
     const status = this.props.activeCart.orderStatus || "";
     const products = this.props.activeCart.products || [];
     const userId = this.props.auth.id || 0
+    let runningTotal = 0
 
     return (
       <div>
-        <h3>ORDER {orderId} </h3>
         <div>
-          CART ITEMS:
+          <h3>YOUR CART</h3>
           <div>
             {products.map((item, index) => {
+              const price = item.price/100 * item.CartItem.quantity
+              runningTotal+=price
               return (
                 <div key={index}>
                   <h5>
@@ -49,6 +51,8 @@ export class CurrentOrder extends React.Component {
                       {item.name}
                     </Link>
                   </h5>
+                  <h5>Price ${price} </h5>
+                  <h5>Quantity {item.CartItem.quantity} </h5>
                   <select onChange={(evt) => this.handleChange(evt, item.id)}>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -73,8 +77,7 @@ export class CurrentOrder extends React.Component {
           </div>
         </div>
         <p>
-          TOTAL PRICE: ${price} <br />
-          ORDER STATUS: {status} <br />
+          SUBTOTAL: ${runningTotal} <br />
         </p>
         <a href="/confirmationPage" onClick={confirmationPage}>
           Checkout
