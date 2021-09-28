@@ -73,7 +73,6 @@ router.put('/:orderId/:userId', async (req, res, next) => {
         },
       ],
     });
-console.log(req.body.body.productId)
     const item = await CartItem.findOne({
       where: {
         orderId: order.id,
@@ -82,7 +81,7 @@ console.log(req.body.body.productId)
 
     })
       if (item) {
-        await item.update(req.body)
+        await item.update(req.body.body)
       } else {
         req.body.body.orderId = order.id
         await CartItem.create(req.body.body)

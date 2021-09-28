@@ -1,5 +1,4 @@
 import axios from "axios";
-import { setCurrentOrder } from "./singleOrder";
 const TOKEN = "token";
 
 const SET_ACTIVE_CART = "SET_ACTIVE_CART"
@@ -38,7 +37,7 @@ export const fetchActiveCart = (userId) => {
   };
 };
 
-export const updateUserOrder = (productId, userId, cartId) => {
+export const updateUserOrder = (productId, userId, cartId, quantity) => {
   return async (dispatch) => {
     try {
       const token = window.localStorage.getItem(TOKEN);
@@ -48,7 +47,8 @@ export const updateUserOrder = (productId, userId, cartId) => {
             authorization: token,
           },
           body: {
-            productId: productId
+            productId: productId,
+            quantity: quantity
           }
         });
         const order = response.data;

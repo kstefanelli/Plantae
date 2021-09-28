@@ -2,23 +2,31 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchCurrentOrder, removeItem } from "../store/singleOrder";
 import { Link } from "react-router-dom";
+import { updateUserOrder } from "../store/userOrder";
 
 export class CurrentOrder extends React.Component {
+  constructor() {
+    super();
+    this.handleChange = this.handleChange.bind(this);
+  }
   componentDidMount() {
     const userId = this.props.auth.id;
     this.props.getOrder(userId);
   }
-  componentDidUpdate(prevProps) {
-    if (this.props.order.products === prevProps.order.products) {
-      this.props.getOrder(this.props.auth.id);
-    }
+
+  handleChange(evt, productId) {
+    evt.preventDefault();
+    const quantity = evt.target.value;
+    const userId = this.props.auth.id;
+    const cartId = this.props.activeCart.id;
+    this.props.udpateUserOrder(productId, userId, cartId, quantity);
   }
 
   render() {
-    const orderId = this.props.order.id || "";
-    const price = this.props.order.totalPrice || 0;
-    const status = this.props.order.orderStatus || "";
-    const products = this.props.order.products || [];
+    const orderId = this.props.activeCart.id || "";
+    const price = this.props.activeCart.totalPrice || 0;
+    const status = this.props.activeCart.orderStatus || "";
+    const products = this.props.activeCart.products || [];
     const userId = this.props.auth.id;
 
     return (
@@ -36,9 +44,19 @@ export class CurrentOrder extends React.Component {
                       {item.name}
                     </Link>
                   </h5>
+                  <select onChange={(evt) => this.handleChange(evt, item.id)}>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                  </select>
 
-                  <button onClick={addQuantity}>Add Quantity</button>
-                  <button onClick={subtractQuantity}>Subtract Quantity</button>
                   <button
                     onClick={() =>
                       this.props.removeItem(userId, item.CartItem.productId)
@@ -68,24 +86,18 @@ const confirmationPage = () => {
   console.log("Clicked");
 };
 
-const addQuantity = () => {
-  console.log("Add");
-};
-const subtractQuantity = () => {
-  console.log("Subtract");
-};
-
 const mapStateToProps = (state) => {
   return {
-    order: state.singleOrder,
     auth: state.auth,
+    activeCart: state.activeCart,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   getOrder: (userId) => dispatch(fetchCurrentOrder(userId)),
   removeItem: (userId, cartItemId) => dispatch(removeItem(userId, cartItemId)),
-  // addQuantity: ()
+  udpateUserOrder: (productId, userId, cartId, quantity) =>
+    dispatch(updateUserOrder(productId, userId, cartId, quantity)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CurrentOrder);
