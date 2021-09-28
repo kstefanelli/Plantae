@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { fetchSingleProduct, updateProduct } from "../store/singleProduct";
 import { Link } from "react-router-dom";
 import { updateUserOrder } from "../store/userOrder";
+import { deleteSingleProduct } from "../store/product";
 
 export class SingleProduct extends React.Component {
  constructor (props) {
@@ -80,6 +81,7 @@ export class SingleProduct extends React.Component {
                 <input name = "inventory" value={this.state.inventory} onChange={handleChange} /> <br />
                 <button type="submit">Submit</button>
               </form>
+              <button type="button" className ="btn btn-primary" onClick = {() => {this.props.deleteProduct(this.props.product.id)}}>X</button>
             </div>
           ) : (
             // {/* need to make sure this is set up with order routes/state something like onClick = {this.addToOrder(this.props.match.params.id)} , put request to set req.body to include orderId*/}
@@ -106,7 +108,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, { history }) => ({
   getProduct: (productId) => dispatch(fetchSingleProduct(productId)),
   updateProduct: (productId, product) => dispatch(updateProduct(productId, product, history)),
-  addToCart: (productId, userId, cartId) => dispatch(updateUserOrder(productId, userId, cartId))
+  addToCart: (productId, userId, cartId) => dispatch(updateUserOrder(productId, userId, cartId)),
+  deleteProduct: (productId) =>
+    dispatch(deleteSingleProduct(productId, history)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct);
