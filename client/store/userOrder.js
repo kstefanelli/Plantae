@@ -19,10 +19,10 @@ export const updateOrder = (order) => {
     order,
   };
 };
-export const _removeItem = (item) => {
+export const _removeItem = (itemId) => {
   return {
     type: REMOVE_ITEM,
-    item,
+    itemId,
   };
 };
 
@@ -82,7 +82,8 @@ export const removeItem = (userId, productId) => {
           }
         );
         const item = response.data;
-        dispatch(_removeItem(item));
+        console.log("RESPONSE.DATA", response.data)
+        dispatch(_removeItem(item.id));
       }
     } catch (err) {
       console.log(err);
@@ -105,6 +106,8 @@ export default (state = initialState, action) => {
       // const itemId = action.item.id;
       // const productArr = state.activeCart.products;
       // const updatedProducts = productArr.filter((item) => item.id !== )
+      console.log("STATE ACTIVE CART", state.activeCart)
+
       console.log("STATE ACTIVECART PRODUCTS", state.activeCart.products);
       console.log("ACTION ITEM", action.item);
       const currentItems = state.activeCart.products.filter(

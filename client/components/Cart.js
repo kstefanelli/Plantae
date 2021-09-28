@@ -24,7 +24,7 @@ export class CurrentOrder extends React.Component {
     const quantity = evt.target.value;
     const userId = this.props.auth.id;
     const cartId = this.props.activeCart.id;
-    this.props.udpateUserOrder(productId, userId, cartId, quantity);
+    this.props.updateUserOrder(productId, userId, cartId, quantity);
   }
 
   render() {
@@ -32,7 +32,7 @@ export class CurrentOrder extends React.Component {
     const price = this.props.activeCart.totalPrice || 0;
     const status = this.props.activeCart.orderStatus || "";
     const products = this.props.activeCart.products || [];
-    const userId = this.props.auth.id;
+    const userId = this.props.auth.id || 0
 
     return (
       <div>
@@ -99,7 +99,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   getOrder: (userId) => dispatch(fetchActiveCart(userId)),
   removeItem: (userId, productId) => dispatch(removeItem(userId, productId)),
-  udpateUserOrder: (productId, userId, cartId, quantity) =>
+  updateUserOrder: (productId, userId, cartId, quantity) =>
     dispatch(updateUserOrder(productId, userId, cartId, quantity)),
 });
 

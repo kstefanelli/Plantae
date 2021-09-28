@@ -169,7 +169,7 @@ router.delete(
         },
       });
       await item.destroy();
-      res.sendStatus(200);
+      res.send(item);
     } catch (err) {
       next(err);
     }
