@@ -43,6 +43,7 @@ export class SingleProduct extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const id = this.props.match.params.id
+    console.log(this.state)
     this.props.updateProduct(id, {...this.state});
 
   }
