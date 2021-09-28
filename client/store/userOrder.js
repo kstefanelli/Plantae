@@ -19,10 +19,11 @@ export const updateOrder = (order) => {
     order,
   };
 };
-export const _removeItem = (itemId) => {
+export const _removeItem = (itemId, activeCart) => {
   return {
     type: REMOVE_ITEM,
     itemId,
+    activeCart
   };
 };
 
@@ -68,7 +69,7 @@ export const updateUserOrder = (productId, userId, cartId, quantity) => {
     }
   };
 };
-export const removeItem = (userId, productId) => {
+export const removeItem = (userId, productId, activeCart) => {
   return async (dispatch) => {
     try {
       const token = window.localStorage.getItem(TOKEN);
@@ -83,7 +84,7 @@ export const removeItem = (userId, productId) => {
         );
         const item = response.data;
         console.log("RESPONSE.DATA", response.data)
-        dispatch(_removeItem(item.id));
+        dispatch(_removeItem(item.productId, activeCart));
       }
     } catch (err) {
       console.log(err);
@@ -106,16 +107,15 @@ export default (state = initialState, action) => {
       // const itemId = action.item.id;
       // const productArr = state.activeCart.products;
       // const updatedProducts = productArr.filter((item) => item.id !== )
-      console.log("STATE ACTIVE CART", state.activeCart)
+      // console.log("STATE ACTIVE CART", state.activeCart)
 
-      console.log("STATE ACTIVECART PRODUCTS", state.activeCart.products);
-      console.log("ACTION ITEM", action.item);
-      const currentItems = state.activeCart.products.filter(
-        (item) => item.id !== action.item.id
+      console.log("STATE ACTIVECART", state.activeCart);
+      // console.log("ACTION ITEM", action.item);
+      const currentItems = state.products.filter(
+        (item) => item.id !== action.itemId
       );
       return {
-        ...state,
-        products: currentItems,
+        ...state, products: currentItems
       };
 
     default:
