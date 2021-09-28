@@ -24,12 +24,21 @@ img {
   width: 300px;
   border-radius: 5px;
 }
-.all-products {
+.all-products-admin {
   display: inline-table;
-  flex-flow: row wrap;
+  flex-flow: wrap;
   justify-content: center;
   align-content: space-between;
   width: 18rem;
-  margin: 0.5rem;
-  padding: 0.5rem;
+  margin: 1.0rem;
+  padding: 1.0rem;
+}
+.all-products-user {
+  display: inline-table;
+  flex-flow: row;
+  justify-content: center;
+  align-content: space-between;
+  width: 18rem;
+  margin: .5rem;
+  padding: .5rem;
 }
