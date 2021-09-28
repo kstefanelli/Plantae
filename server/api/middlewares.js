@@ -24,7 +24,7 @@ const isAdmin = (req, res, next) => {
 
 const isUser = (req, res, next) => {
   try {
-    if (req.user.dataValues.id !== parseInt(req.params.id)) {
+    if (req.user.dataValues.id !== parseInt(req.params.userId)) {
       throw new Error("Unauthorized!");
     }
     next();
@@ -36,7 +36,7 @@ const isUser = (req, res, next) => {
 const isUserOrAdmin = (req, res, next) => {
   try {
     if (
-      req.user.dataValues.id !== parseInt(req.params.id) &&
+      req.user.dataValues.id !== parseInt(req.params.userId) &&
       req.user.userType !== "ADMIN"
     ) {
       throw new Error("Unauthorized!");

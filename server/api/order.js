@@ -2,7 +2,7 @@ const router = require("express").Router();
 const {
   models: { User, Product, CartItem, Order },
 } = require("../db");
-const { requireToken, isAdmin, isUser } = require("./middlewares");
+const { requireToken, isAdmin, isUser, isUserOrAdmin } = require("./middlewares");
 
 //all orders for admins//working
 router.get("/", requireToken, isAdmin, async (req, res, next) => {
@@ -14,34 +14,12 @@ router.get("/", requireToken, isAdmin, async (req, res, next) => {
   }
 });
 
-// //Gets all the users orders //for admin and matching user
-// router.get("/:userId", requireToken, async (req, res, next) => {
-//   try {
-//     if (isUser || isAdmin) {
-//       const order = await Order.findOne({
-//         where: {
-//           userId: req.params.userId,
-//         },
-//         include: [
-//           {
-//             model: Product,
-//           },
-//         ],
-//       });
-//       res.json(order);
-//     }
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
-//Get single order by ID
-router.get("/:userId/:orderId", requireToken, async (req, res, next) => {
+//Fetch all orders(order history) for a specific user
+router.get("/:userId", requireToken, isUserOrAdmin, async (req, res, next) => {
   try {
-    if (isUser || isAdmin) {
-      const order = await Order.findOne({
+      const orders = await Order.findAll({
         where: {
-          id: req.params.orderId,
+          userId: req.params.userId,
         },
         include: [
           {
@@ -49,15 +27,14 @@ router.get("/:userId/:orderId", requireToken, async (req, res, next) => {
           },
         ],
       });
-      res.send(order);
-    }
+      res.json(orders);
   } catch (err) {
     next(err);
   }
 });
 
-//Get current order
-router.get("/currentOrder/:userId", requireToken, async (req, res, next) => {
+//Get current order, if there's no order with active cart status, create a new order
+router.get("/currentOrder/:userId", requireToken, isUser, async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
@@ -70,56 +47,93 @@ router.get("/currentOrder/:userId", requireToken, async (req, res, next) => {
         },
       ],
     });
-    res.json(order);
+    if (order){
+        res.json(order)
+    } else {
+        const newOrder = await Order.create();
+        res.json(newOrder);
+    }
+   ;
   } catch (err) {
     next(err);
   }
 });
 
-router.post("/:userId", async (req, res, next) => {
+//finds proper order, gets the cartitem that matches the product id, if the item doesn't exist it makes one, if not it updates it
+router.put('/:orderId/:userId', async (req, res, next) => {
   try {
-    const newOrder = await Order.create();
-    res.json(newOrder);
-  } catch (err) {
-    next(err);
-  }
-});
-
-// //look at specific order details, for logged in user or admin only
-// router.get("/:orderId", async (req, res, next) => {
-//   try {
-//     const specificOrder = Order.findOne({
-//       where: {
-//         orderId: req.params.orderId
-//       }
-//     })
-//     res.send(specificOrder)
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
-//Get individual user current order details  - only for matching user and admin access
-// /api/users/:userId/order
-
-//test once we deploy
-//Update individual user current order  - only for matching user access, changing quantity
-// /api/users/:userId/order
-router.put("/:userId", requireToken, isUser, async (req, res, next) => {
-  try {
-    const usersCurrentOrder = await Order.findOne({
+    const order = await Order.findOne({
       where: {
         userId: req.params.userId,
+        orderStatus: "ACTIVE CART",
       },
+      include: [
+        {
+          model: Product,
+        },
+      ],
     });
-    res.json(await usersCurrentOrder.update(req.body));
-  } catch (err) {
-    next(err);
+    const item = await CartItem.findOne({
+      where: {
+        orderId: order.id,
+        productId: req.body.productId
+      }
+    })
+      if (item) {
+        await item.update(req.body)
+      } else {
+        req.body.orderId = order.id
+        await CartItem.create(req.body)
+      }
+
+    res.json(order)
+  } catch (error) {
+      next(error)
+    }
+})
+
+router.put("/checkout/:orderId/:userId", async (req, res, next) => {
+  try {
+    const order = await Order.findOne({
+      where: {
+        userId: req.params.userId,
+        orderStatus: "ACTIVE CART",
+      },
+      include: [
+        {
+          model: Product,
+        },
+      ],
+    });
+    const items = await CartItem.findAll({
+      where: {
+        orderId: order.id
+      }
+    })
+    items.map(async (item) => {
+      let product = await Product.findOne({
+        where: {
+          id: item.productId
+        }
+      });
+      await product.update({
+        inventory: product.inventory - item.quantity
+      })
+      await item.update({
+        priceAtCheckout: product.price,
+      })
+    })
+
+    res.json(await order.update({
+      orderStatus: "FULFILLED"
+    }))
+  } catch (error) {
+    next(error)
   }
-});
+})
 
 //delete items in current order - only for matching user access
-// /api/users/:userId/order/:cartItemId
+// /api/order/:userId/:cartItemId
 router.delete(
   "/:userId/:cartItemId",
   requireToken,
@@ -129,9 +143,20 @@ router.delete(
       const order = await Order.findOne({
         where: {
           userId: req.params.userId,
+          orderStatus: "ACTIVE CART",
         },
+        include: [
+          {
+            model: Product,
+          },
+        ],
       });
-      const item = await CartItem.findByPk(req.params.cartItemId);
+      const item = await CartItem.findOne({
+        where: {
+          orderId: order.id,
+          productId: req.body.productId
+        }
+      })
       await item.destroy();
       res.sendStatus(200);
     } catch (err) {

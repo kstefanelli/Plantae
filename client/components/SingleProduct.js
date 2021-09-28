@@ -75,8 +75,8 @@ export class SingleProduct extends React.Component {
               </form>
             </div>
           ) : (
-            // {/* need to make sure this is set up with order routes/state something like onClick = {this.addToOrder(this.props.match.params.id)} */}
-            <button > Add to cart <Link to={`/order/${this.props.product.id}`}></Link>
+            // {/* need to make sure this is set up with order routes/state something like onClick = {this.addToOrder(this.props.match.params.id)} , put request to set req.body to include orderId*/}
+            <button >ADD TO CART <Link to={`/order/${this.props.product.id}`}></Link>
             </button>
           )
           }
