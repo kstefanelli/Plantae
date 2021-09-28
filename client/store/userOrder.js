@@ -19,11 +19,10 @@ export const updateOrder = (order) => {
     order,
   };
 };
-export const _removeItem = (itemId, activeCart) => {
+export const _removeItem = (itemId) => {
   return {
     type: REMOVE_ITEM,
     itemId,
-    activeCart
   };
 };
 
@@ -83,7 +82,6 @@ export const removeItem = (userId, productId, activeCart) => {
           }
         );
         const item = response.data;
-        console.log("RESPONSE.DATA", response.data)
         dispatch(_removeItem(item.productId, activeCart));
       }
     } catch (err) {
@@ -101,21 +99,12 @@ export default (state = initialState, action) => {
     case SET_ACTIVE_CART:
       return action.activeCart;
     case REMOVE_ITEM:
-      //need to filter out item just removed from product list
-      //action.order => product array => items
-      //action.item => has productId
-      // const itemId = action.item.id;
-      // const productArr = state.activeCart.products;
-      // const updatedProducts = productArr.filter((item) => item.id !== )
-      // console.log("STATE ACTIVE CART", state.activeCart)
-
-      console.log("STATE ACTIVECART", state.activeCart);
-      // console.log("ACTION ITEM", action.item);
       const currentItems = state.products.filter(
         (item) => item.id !== action.itemId
       );
       return {
-        ...state, products: currentItems
+        ...state,
+        products: currentItems,
       };
 
     default:
