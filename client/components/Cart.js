@@ -1,8 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchCurrentOrder, removeItem } from "../store/singleOrder";
+// import { fetchCurrentOrder, removeItem } from "../store/singleOrder";
 import { Link } from "react-router-dom";
-import { updateUserOrder } from "../store/userOrder";
+import {
+  updateUserOrder,
+  removeItem,
+  fetchActiveCart,
+} from "../store/userOrder";
 
 export class CurrentOrder extends React.Component {
   constructor() {
@@ -12,6 +16,7 @@ export class CurrentOrder extends React.Component {
   componentDidMount() {
     const userId = this.props.auth.id;
     this.props.getOrder(userId);
+    console.log("this props ", this.props);
   }
 
   handleChange(evt, productId) {
@@ -58,9 +63,7 @@ export class CurrentOrder extends React.Component {
                   </select>
 
                   <button
-                    onClick={() =>
-                      this.props.removeItem(userId, item.CartItem.productId)
-                    }
+                    onClick={() => this.props.removeItem(userId, item.id)}
                   >
                     Remove From Cart
                   </button>
@@ -94,8 +97,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getOrder: (userId) => dispatch(fetchCurrentOrder(userId)),
-  removeItem: (userId, cartItemId) => dispatch(removeItem(userId, cartItemId)),
+  getOrder: (userId) => dispatch(fetchActiveCart(userId)),
+  removeItem: (userId, productId) => dispatch(removeItem(userId, productId)),
   udpateUserOrder: (productId, userId, cartId, quantity) =>
     dispatch(updateUserOrder(productId, userId, cartId, quantity)),
 });
