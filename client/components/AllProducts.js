@@ -14,15 +14,17 @@ export class AllProducts extends React.Component {
   render() {
     const products = this.props.products || [];
     return (
-      <div className="all-products">
+      <div>
             {products.map((product) => {
               return (
-                <div key = {product.id}>
+                <div className="all-products" key={product.id}>
                   <div >
-                    <img src = {product.imageURL}/>
-                    <h5>
-                      <Link to = {`/products/${product.id}`}>{product.name} ${product.price / 100}</Link>
-                    </h5>
+                    <h4>
+                      <Link to = {`/products/${product.id}`}>
+                      <img src = {product.imageURL}/>
+                        {product.name} - ${product.price / 100
+                        }</Link>
+                    </h4>
                   </div>
                 </div>
                 )
