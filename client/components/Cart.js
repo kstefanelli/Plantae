@@ -6,6 +6,7 @@ import {
   updateUserOrder,
   removeItem,
   fetchActiveCart,
+  checkout,
 } from "../store/userOrder";
 
 export class CurrentOrder extends React.Component {
@@ -19,12 +20,21 @@ export class CurrentOrder extends React.Component {
     console.log("this props ", this.props);
   }
 
+  componentDidUpdate(prevProps) {
+    console.log("PREV", prevProps.activeCart);
+    console.log("CURRENT", this.props.activeCart);
+    if (prevProps !== this.props) {
+      this.props.getOrder(this.props.auth.id);
+    }
+  }
+
   handleChange(evt, productId) {
     evt.preventDefault();
     const quantity = evt.target.value;
     const userId = this.props.auth.id;
     const cartId = this.props.activeCart.id;
     this.props.updateUserOrder(productId, userId, cartId, quantity);
+    // this.props.getOrder(this.props.auth.id);
   }
 
   render() {
@@ -32,8 +42,8 @@ export class CurrentOrder extends React.Component {
     const price = this.props.activeCart.totalPrice || 0;
     const status = this.props.activeCart.orderStatus || "";
     const products = this.props.activeCart.products || [];
-    const userId = this.props.auth.id || 0
-    let runningTotal = 0
+    const userId = this.props.auth.id || 0;
+    let runningTotal = 0;
 
     return (
       <div>
@@ -41,8 +51,8 @@ export class CurrentOrder extends React.Component {
           <h3>YOUR CART</h3>
           <div>
             {products.map((item, index) => {
-              const price = item.price/100 * item.CartItem.quantity
-              runningTotal+=price
+              const price = (item.price / 100) * item.CartItem.quantity;
+              runningTotal += price;
               return (
                 <div key={index}>
                   <h5>
@@ -51,7 +61,7 @@ export class CurrentOrder extends React.Component {
                       {item.name}
                     </Link>
                   </h5>
-                  <h5>Price ${price} </h5>
+                  <h5>Price ${price.toFixed(2)} </h5>
                   <h5>Quantity {item.CartItem.quantity} </h5>
                   <select onChange={(evt) => this.handleChange(evt, item.id)}>
                     <option value="1">1</option>
@@ -77,9 +87,12 @@ export class CurrentOrder extends React.Component {
           </div>
         </div>
         <p>
-          SUBTOTAL: ${runningTotal} <br />
+          SUBTOTAL: ${runningTotal.toFixed(2)} <br />
         </p>
-        <a href="/confirmationPage" onClick={confirmationPage}>
+        <a
+          href="/confirmationPage"
+          onClick={() => this.props.confirmationPage(userId, orderId)}
+        >
           Checkout
         </a>
       </div>
@@ -87,10 +100,10 @@ export class CurrentOrder extends React.Component {
   }
 }
 
-const confirmationPage = () => {
-  //need to add functionality - needs to submit the order and change orderStatus to "FULFILLED"
-  console.log("Clicked");
-};
+// const confirmationPage = () => {
+//   //need to add functionality - needs to submit the order and change orderStatus to "FULFILLED"
+
+// };
 
 const mapStateToProps = (state) => {
   return {
@@ -104,6 +117,7 @@ const mapDispatchToProps = (dispatch) => ({
   removeItem: (userId, productId) => dispatch(removeItem(userId, productId)),
   updateUserOrder: (productId, userId, cartId, quantity) =>
     dispatch(updateUserOrder(productId, userId, cartId, quantity)),
+  confirmationPage: (userId, cartId) => dispatch(checkout(userId, cartId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CurrentOrder);

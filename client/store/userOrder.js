@@ -4,6 +4,7 @@ const TOKEN = "token";
 const SET_ACTIVE_CART = "SET_ACTIVE_CART";
 const UPDATE_ORDER = "UPDATE_ORDER";
 const REMOVE_ITEM = "REMOVE_ITEM";
+const CHECKOUT = "CHECKOUT";
 
 //ACTION CREATORS
 export const setActiveCart = (activeCart) => {
@@ -23,6 +24,12 @@ export const _removeItem = (itemId) => {
   return {
     type: REMOVE_ITEM,
     itemId,
+  };
+};
+export const _checkout = (order) => {
+  return {
+    type: CHECKOUT,
+    order,
   };
 };
 
@@ -90,6 +97,30 @@ export const removeItem = (userId, productId, activeCart) => {
   };
 };
 
+//"/checkout/:orderId/:userId"
+export const checkout = (userId, activeCartId) => {
+  return async (dispatch) => {
+    try {
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        const response = await axios.put(
+          `/api/order/checkout/${activeCartId}/${userId}`,
+          {
+            headers: {
+              authorization: token,
+            },
+          }
+        );
+        const order = response.data;
+        console.log(order);
+        dispatch(_checkout(order));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 const initialState = {};
 
 export default (state = initialState, action) => {
@@ -106,7 +137,8 @@ export default (state = initialState, action) => {
         ...state,
         products: currentItems,
       };
-
+    case CHECKOUT:
+      return { ...state, orders: [...orders, action.order] };
     default:
       return state;
   }

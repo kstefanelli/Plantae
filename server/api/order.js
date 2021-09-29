@@ -103,6 +103,7 @@ router.put("/:orderId/:userId", async (req, res, next) => {
 
 router.put("/checkout/:orderId/:userId", async (req, res, next) => {
   try {
+    console.log();
     const order = await Order.findOne({
       where: {
         userId: req.params.userId,
