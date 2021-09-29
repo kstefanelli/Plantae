@@ -36,10 +36,17 @@ router.post("/", requireToken, isAdmin, async (req, res, next) => {
 });
 
 //admin only - edit products
-router.put("/:productId", requireToken, isAdmin, async (req, res, next) => {
+router.put("/:productId", async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.productId);
-    res.json(await product.update(req.body));
+    console.log("PRODUCT", product)
+    const updated = await product.update({
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      inventory: req.body.inventory
+    })
+    res.send(updated);
   } catch (error) {
     next(error);
   }
