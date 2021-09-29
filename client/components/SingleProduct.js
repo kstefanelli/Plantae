@@ -63,11 +63,11 @@ export class SingleProduct extends React.Component {
     const handleChange = this.handleChange
 
     return (
-      <div>
-        <h3>{productName}</h3>
-        <img src={imageUrl} />
+      <div className= 'single-product'>
+        <h2>{productName}</h2>
+        <img className= 'single-img'src={imageUrl} /> <br/>
+          ${price /100} <br/>
           {description} <br />
-          Price: ${price / 100} <br />
           {this.props.isAdmin ? (
             <div>
               Inventory: {inventory}
@@ -85,7 +85,6 @@ export class SingleProduct extends React.Component {
               <button type="button" className ="btn btn-primary" onClick = {() => {this.props.deleteProduct(this.props.product.id)}}>X</button>
             </div>
           ) : (
-            // {/* need to make sure this is set up with order routes/state something like onClick = {this.addToOrder(this.props.match.params.id)} , put request to set req.body to include orderId*/}
             <button onClick = {() => this.handleAddToCart(this.props.product.id)}>ADD TO CART <Link to={`/order/${this.props.product.id}`}></Link>
             </button>
           )
