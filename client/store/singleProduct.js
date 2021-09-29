@@ -36,13 +36,17 @@ export const fetchSingleProduct = (id) => {
 export const updateProduct = (id, product, history) => {
   return async (dispatch) => {
     try {
+      console.log("ID", id)
       const token = window.localStorage.getItem(TOKEN);
+      console.log(token)
       if(token){
       const { data: updated } = await axios.put(`/api/products/${id}`, {
         headers: {
           authorization: token
-        }
-        }, product);
+        },
+        body: product
+        });
+        console.log("UPDATED", updated)
       dispatch(updateSingleProduct(updated));
       history.push(`/products/${id}`)
       }
