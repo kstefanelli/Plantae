@@ -205,6 +205,24 @@ const seed = async () => {
       email: "customer@email.com",
       userType: "CUSTOMER",
     });
+    const customer1 = await User.create({
+      username: "customer1",
+      password: "123",
+      email: "customer1@email.com",
+      userType: "CUSTOMER",
+    });
+    const customer2 = await User.create({
+      username: "customer2",
+      password: "123",
+      email: "customer2@email.com",
+      userType: "CUSTOMER",
+    });
+    const customer3 = await User.create({
+      username: "customer3",
+      password: "123",
+      email: "customer3@email.com",
+      userType: "CUSTOMER",
+    });
 
     const newProducts = await products.map((product) => {
       Product.create(product);
@@ -214,17 +232,18 @@ const seed = async () => {
     let order2 = await Order.create({ userId: kristina.id });
     let order3 = await Order.create({ userId: gigi.id });
     let order4 = await Order.create({ userId: customer.id });
-    let order5 = await Order.create({
-      userId: gigi.id,
-      orderStatus: "FULFILLED",
-    });
+    let order5 = await Order.create({ userId: customer1.id });
+    let order6 = await Order.create({ userId: customer2.id });
+    let order7 = await Order.create({ userId: customer3.id });
+ 
 
     await CartItem.create({ orderId: order1.id, productId: 1 });
-    await CartItem.create({ orderId: order2.id, productId: 1 });
-    await CartItem.create({ orderId: order3.id, productId: 1 });
-    await CartItem.create({ orderId: order3.id, productId: 2 });
-    await CartItem.create({ orderId: order4.id, productId: 1 });
-    await CartItem.create({ orderId: order5.id, productId: 1 });
+    await CartItem.create({ orderId: order2.id, productId: 2 });
+    await CartItem.create({ orderId: order3.id, productId: 3 });
+    await CartItem.create({ orderId: order4.id, productId: 4 });
+    await CartItem.create({ orderId: order5.id, productId: 5 });
+    await CartItem.create({ orderId: order6.id, productId: 6 });
+    await CartItem.create({ orderId: order7.id, productId: 7 });
   } catch (err) {
     console.log(err);
   }
