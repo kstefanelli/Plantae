@@ -1,10 +1,6 @@
 # Plants for Cat People
 
-https://plantsforcatpeople.herokuapp.com/
-
-Contributors: 
+Contributors:
 Anna
 Kristina
 GiGi
-
-
